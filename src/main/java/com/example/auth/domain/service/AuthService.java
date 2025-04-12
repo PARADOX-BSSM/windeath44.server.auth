@@ -2,7 +2,7 @@ package com.example.auth.domain.service;
 
 import com.example.auth.domain.domain.RefreshToken;
 import com.example.auth.domain.domain.repository.RefreshTokenRepository;
-import com.example.auth.domain.exception.NotFoundRefresTokenException;
+import com.example.auth.domain.exception.NotFoundRefreshTokenException;
 import com.example.auth.domain.presentation.dto.request.TokenRequest;
 import com.example.auth.domain.presentation.dto.request.UserLoginRequest;
 import com.example.auth.domain.presentation.dto.response.TokenResponse;
@@ -41,7 +41,7 @@ public class AuthService {
 
   private RefreshToken getRefreshToken(TokenRequest refreshToken) {
     RefreshToken token = refreshTokenRepository.findById(refreshToken.refreshToken())
-            .orElseThrow(() -> new NotFoundRefresTokenException("Not found refresh token with id"));
+            .orElseThrow(() -> new NotFoundRefreshTokenException("Not found refresh token with id"));
     refreshTokenRepository.delete(token); // refresh token rotate
     return token;
   }

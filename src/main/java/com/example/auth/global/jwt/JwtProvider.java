@@ -15,7 +15,7 @@ public class JwtProvider {
   private final JwtProperties jwtProperties;
   private final RefreshTokenRepository refreshTokenRepository;
   private final String REFRESHTOKEN = "RefreshToken";
-  private final String ACCESSTOKEN = "RefreshToken";
+  private final String ACCESSTOKEN = "AccessToken";
 
   public String createRefreshToken(String email) {
     // refresh token -> redis

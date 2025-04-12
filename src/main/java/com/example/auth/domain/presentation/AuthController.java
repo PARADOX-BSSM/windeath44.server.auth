@@ -44,7 +44,7 @@ public class AuthController {
 
   private HttpHeaders getHttpHeaders(TokenResponse tokenResponse) {
     HttpHeaders httpHeaders = new HttpHeaders();
-    httpHeaders.add("accesToken", tokenResponse.accessToken());
+    httpHeaders.add("accessToken", tokenResponse.accessToken());
     httpHeaders.add(HttpHeaders.SET_COOKIE, createCookie("refreshToken", tokenResponse.refreshToken()).toString());
     return httpHeaders;
   }

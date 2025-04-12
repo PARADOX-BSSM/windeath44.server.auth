@@ -2,8 +2,7 @@ package com.example.auth.global.exception;
 
 import com.example.auth.domain.exception.DontExistsUserException;
 import com.example.auth.domain.exception.GrpcMappedException;
-import com.example.auth.domain.exception.NotFoundRefresTokenException;
-import io.grpc.StatusRuntimeException;
+import com.example.auth.domain.exception.NotFoundRefreshTokenException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +14,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class GlobalExceptionHandler {
 
-  @ExceptionHandler(NotFoundRefresTokenException.class)
+  @ExceptionHandler(NotFoundRefreshTokenException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  public void notFoundRefresTokenExceptionHandler(NotFoundRefresTokenException e) {
+  public void notFoundRefresTokenExceptionHandler(NotFoundRefreshTokenException e) {
     log.error(e.getMessage());
   }
 

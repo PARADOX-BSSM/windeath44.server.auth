@@ -1,3 +1,20 @@
+server:
+  port:
+    ${server-port}
+
+grpc:
+  client:
+    user-server:
+      address: ${grpc-user-server-address}
+      negotiationType: "plaintext"
+
+jwt:
+  refresh-time: ${refresh-time}
+  access-time: ${access-time}
+  secret-key: ${secret-key}
+
 spring:
-  profiles:
-    active: dev
+  data:
+    redis:
+      host: localhost
+      port: ${redis-port}
