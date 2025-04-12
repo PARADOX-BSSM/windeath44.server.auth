@@ -34,11 +34,16 @@ public class AuthService {
   }
 
   public TokenResponse reissue(TokenRequest refreshToken) {
+    RefreshToken token = getRefreshToken(refreshToken);
+    TokenResponse tokenResponse = getTokenResponse(token.getEmail());
+    return tokenResponse;
+  }
+
+  private RefreshToken getRefreshToken(TokenRequest refreshToken) {
     RefreshToken token = refreshTokenRepository.findById(refreshToken.refreshToken())
             .orElseThrow(() -> new NotFoundRefresTokenException("Not found refresh token with id"));
     refreshTokenRepository.delete(token); // refresh token rotate
-    TokenResponse tokenResponse = getTokenResponse(token.getEmail());
-    return tokenResponse;
+    return token;
   }
 
 }
