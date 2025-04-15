@@ -4,6 +4,8 @@ import com.example.auth.domain.presentation.dto.request.TokenRequest;
 import com.example.auth.domain.presentation.dto.request.UserLoginRequest;
 import com.example.auth.domain.presentation.dto.response.TokenResponse;
 import com.example.auth.domain.service.AuthService;
+import com.example.auth.domain.service.GoogleAuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
   private final AuthService authService;
   @PostMapping("/login")
-  public ResponseEntity<Void> login(@RequestBody UserLoginRequest request) {
+  public ResponseEntity<Void> loginCustom(@RequestBody @Valid UserLoginRequest request) {
     TokenResponse tokenResponse = authService.login(request);
     HttpHeaders httpHeaders = getHttpHeaders(tokenResponse);
     return ResponseEntity
@@ -26,7 +28,7 @@ public class AuthController {
   }
 
   @PostMapping("/reissue")
-  public ResponseEntity<Void> reissue(@RequestBody TokenRequest refreshToken) {
+  public ResponseEntity<Void> reissue(@RequestBody @Valid TokenRequest refreshToken) {
     TokenResponse tokenResponse = authService.reissue(refreshToken);
     HttpHeaders httpHeaders = getHttpHeaders(tokenResponse);
     return ResponseEntity

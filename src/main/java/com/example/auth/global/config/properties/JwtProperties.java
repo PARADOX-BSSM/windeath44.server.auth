@@ -1,4 +1,4 @@
-package com.example.auth.global.jwt;
+package com.example.auth.global.config.properties;
 
 import lombok.Getter;
 import lombok.Setter;
