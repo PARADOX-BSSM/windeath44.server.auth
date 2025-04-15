@@ -14,26 +14,27 @@ import java.util.Date;
 public class JwtProvider {
   private final JwtProperties jwtProperties;
   private final RefreshTokenRepository refreshTokenRepository;
-  private final String REFRESHTOKEN = "RefreshToken";
-  private final String ACCESSTOKEN = "AccessToken";
+  private final String REFRESH_TOKEN = "REFRESH_TOKEN";
+  private final String ACCESS_TOKEN = "ACCESS_TOKEN";
 
-  public String createRefreshToken(String email) {
+  public String createRefreshToken(String userId, String role) {
     // refresh token -> redis
-    String refreshToken = createToken(email, REFRESHTOKEN, jwtProperties.getRefreshTime());
-    RefreshToken token = RefreshToken.create(email, refreshToken);
+    String refreshToken = createToken(userId, role, REFRESH_TOKEN, jwtProperties.getRefreshTime());
+    RefreshToken token = RefreshToken.create(refreshToken, userId, role);
     refreshTokenRepository.save(token);
     return refreshToken;
   }
 
-  public String createAccessToken(String email) {
-    return createToken(email, ACCESSTOKEN, jwtProperties.getAccessTime());
+  public String createAccessToken(String userId, String role) {
+    return createToken(userId, role, ACCESS_TOKEN, jwtProperties.getAccessTime());
   }
 
-  private String createToken(String email, String type, Long time) {
+  private String createToken(String userId, String role, String type, Long time) {
     Date now = new Date();
     return Jwts.builder().signWith(SignatureAlgorithm.RS256, jwtProperties.getSecretKey())
             .setHeaderParam("type", type)
-            .setSubject(email)
+            .setSubject(userId)
+            .claim("role", role)
             .setIssuedAt(now)
             .setExpiration(new Date(now.getTime() + time))
             .compact();
