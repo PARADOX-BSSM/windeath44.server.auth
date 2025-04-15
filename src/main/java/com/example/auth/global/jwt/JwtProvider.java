@@ -31,7 +31,7 @@ public class JwtProvider {
 
   private String createToken(String email, String type, Long time) {
     Date now = new Date();
-    return Jwts.builder().signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
+    return Jwts.builder().signWith(SignatureAlgorithm.RS256, jwtProperties.getSecretKey())
             .setHeaderParam("type", type)
             .setSubject(email)
             .setIssuedAt(now)
