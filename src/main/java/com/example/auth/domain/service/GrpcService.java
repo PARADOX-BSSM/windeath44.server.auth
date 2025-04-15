@@ -3,6 +3,7 @@ package com.example.auth.domain.service;
 import com.example.auth.domain.exception.DontExistsUserException;
 import com.example.auth.domain.exception.GrpcMappedException;
 import com.example.auth.domain.exception.GrpcStatusMapper;
+import com.example.auth.domain.presentation.dto.response.UserCheckInfo;
 import com.example.grpc.AuthenticationServiceGrpc;
 import com.example.grpc.CheckUserRequest;
 import com.example.grpc.CheckUserResponse;
@@ -19,12 +20,18 @@ public class GrpcService {
   @GrpcClient("user-server")
   private AuthenticationServiceGrpc.AuthenticationServiceBlockingStub authenticationSerivceBlockingStub;
 
-  public void checkUser(String email, String password) {
+  public UserCheckInfo checkUser(String email, String password) {
     CheckUserResponse response = sendToLoginUserRequest(email, password);
     boolean userExists = response.getExistsUser();
+
     if (!userExists) {
       throw new DontExistsUserException("User don't exists.");
     }
+
+    String userId = response.getUserId();
+    String role = response.getRole();
+    UserCheckInfo userCheckInfo = UserCheckInfo.create(userId, role);
+    return userCheckInfo;
   }
 
   private CheckUserResponse sendToLoginUserRequest (String email, String password) {

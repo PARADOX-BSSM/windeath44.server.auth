@@ -6,6 +6,7 @@ import com.example.auth.domain.exception.NotFoundRefreshTokenException;
 import com.example.auth.domain.presentation.dto.request.TokenRequest;
 import com.example.auth.domain.presentation.dto.request.UserLoginRequest;
 import com.example.auth.domain.presentation.dto.response.TokenResponse;
+import com.example.auth.domain.presentation.dto.response.UserCheckInfo;
 import com.example.auth.global.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,21 +22,26 @@ public class AuthService {
 
   public TokenResponse login(UserLoginRequest request) {
     String email = request.email();
-    authGrpcService.checkUser(email, request.password());
-    TokenResponse tokenResponse = getTokenResponse(email);
+    UserCheckInfo userCheckInfo = authGrpcService.checkUser(email, request.password());
+
+    String userId = userCheckInfo.userId();
+    String role = userCheckInfo.role();
+    TokenResponse tokenResponse = getTokenResponse(userId, role);
     return tokenResponse;
   }
 
-  private TokenResponse getTokenResponse(String email) {
-    String accessToken = jwtProvider.createAccessToken(email);
-    String refreshToken = jwtProvider.createRefreshToken(email);
+  private TokenResponse getTokenResponse(String userId, String role) {
+    String accessToken = jwtProvider.createAccessToken(userId, role);
+    String refreshToken = jwtProvider.createRefreshToken(userId, role);
     TokenResponse tokenResponse = TokenResponse.toTokenResponse(accessToken, refreshToken);
     return tokenResponse;
   }
 
   public TokenResponse reissue(TokenRequest refreshToken) {
     RefreshToken token = getRefreshToken(refreshToken);
-    TokenResponse tokenResponse = getTokenResponse(token.getEmail());
+    String userId = token.getUserId();
+    String role = token.getRole();
+    TokenResponse tokenResponse = getTokenResponse(userId, role);
     return tokenResponse;
   }
 
