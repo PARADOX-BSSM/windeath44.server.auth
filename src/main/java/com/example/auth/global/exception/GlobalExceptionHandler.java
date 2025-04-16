@@ -1,6 +1,6 @@
 package com.example.auth.global.exception;
 
-import com.example.auth.domain.exception.DontExistsUserException;
+import com.example.auth.domain.exception.NotFoundUserException;
 import com.example.auth.domain.exception.GrpcMappedException;
 import com.example.auth.domain.exception.NotFoundRefreshTokenException;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +20,9 @@ public class GlobalExceptionHandler {
     log.error(e.getMessage());
   }
 
-  @ExceptionHandler(DontExistsUserException.class)
+  @ExceptionHandler(NotFoundUserException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  public void dontExistsUserException(DontExistsUserException e) {
+  public void dontExistsUserException(NotFoundUserException e) {
     log.error(e.getMessage());
   }
 

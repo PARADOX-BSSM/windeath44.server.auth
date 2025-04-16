@@ -8,6 +8,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.security.KeyPair;
 import java.util.Date;
 
 @Component
@@ -17,6 +18,7 @@ public class JwtProvider {
   private final RefreshTokenRepository refreshTokenRepository;
   private final String REFRESH_TOKEN = "REFRESH_TOKEN";
   private final String ACCESS_TOKEN = "ACCESS_TOKEN";
+  private final KeyPair keyPair;
 
   public String createRefreshToken(String userId, String role) {
     // refresh token -> redis
@@ -32,12 +34,14 @@ public class JwtProvider {
 
   private String createToken(String userId, String role, String type, Long time) {
     Date now = new Date();
-    return Jwts.builder().signWith(SignatureAlgorithm.RS256, jwtProperties.getSecretKey())
+    return Jwts.builder()
+            .signWith(keyPair.getPrivate(), SignatureAlgorithm.RS256)
             .setHeaderParam("type", type)
             .setSubject(userId)
             .claim("role", role)
             .setIssuedAt(now)
             .setExpiration(new Date(now.getTime() + time))
+            .setIssuer("windeath44-auth")
             .compact();
   }
 }
