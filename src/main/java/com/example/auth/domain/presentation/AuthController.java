@@ -20,14 +20,13 @@ public class AuthController {
   private final AuthService authService;
   private final MailService mailService;
   @PostMapping("/login")
-  public ResponseEntity<Void> loginCustom(@RequestBody @Valid UserLoginRequest request) {
+  public ResponseEntity<Void> login(@RequestBody @Valid UserLoginRequest request) {
     TokenResponse tokenResponse = authService.login(request);
     HttpHeaders httpHeaders = getHttpHeaders(tokenResponse);
     return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
             .headers(httpHeaders)
             .build();
-
   }
 
   @PostMapping("/reissue")

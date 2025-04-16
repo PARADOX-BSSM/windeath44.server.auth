@@ -21,8 +21,7 @@ public class AuthService {
   private final RefreshTokenRepository refreshTokenRepository;
 
   public TokenResponse login(UserLoginRequest request) {
-    String email = request.email();
-    UserCheckInfo userCheckInfo = authGrpcService.checkUser(email, request.password());
+    UserCheckInfo userCheckInfo = authGrpcService.checkUser(request.userId(), request.password());
 
     String userId = userCheckInfo.userId();
     String role = userCheckInfo.role();
