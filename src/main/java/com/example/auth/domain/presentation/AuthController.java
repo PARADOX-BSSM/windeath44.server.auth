@@ -5,6 +5,7 @@ import com.example.auth.domain.presentation.dto.request.UserLoginRequest;
 import com.example.auth.domain.presentation.dto.response.TokenResponse;
 import com.example.auth.domain.service.AuthService;
 import com.example.auth.domain.service.GoogleAuthService;
+import com.example.auth.domain.service.MailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
   private final AuthService authService;
+  private final MailService mailService;
   @PostMapping("/login")
   public ResponseEntity<Void> loginCustom(@RequestBody @Valid UserLoginRequest request) {
     TokenResponse tokenResponse = authService.login(request);
@@ -35,6 +37,12 @@ public class AuthController {
             .status(HttpStatus.NO_CONTENT)
             .headers(httpHeaders)
             .build();
+  }
+
+  @PostMapping("/valid/email")
+  @ResponseStatus(HttpStatus.OK)
+  public void validEmail(@RequestBody String email) {
+    mailService.sendToAuthorization(email);
   }
 
   private ResponseCookie createCookie(String key, String value) {
