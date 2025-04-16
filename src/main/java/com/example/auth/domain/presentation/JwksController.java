@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/.well-known")
+@RequestMapping("")
 public class JwksController {
 
   private final KeyPair keyPair;
@@ -21,7 +21,7 @@ public class JwksController {
     this.keyPair = keyPair;
   }
 
-  @GetMapping("/jwks.json")
+  @GetMapping("/.well-known/jwks.json")
   public Map<String, Object> getJwks() {
     RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
 
