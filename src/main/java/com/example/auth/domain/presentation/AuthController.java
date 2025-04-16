@@ -27,6 +27,7 @@ public class AuthController {
             .status(HttpStatus.NO_CONTENT)
             .headers(httpHeaders)
             .build();
+
   }
 
   @PostMapping("/reissue")
