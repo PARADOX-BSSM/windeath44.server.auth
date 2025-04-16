@@ -13,8 +13,26 @@ jwt:
   access-time: ${access-time}
   secret-key: ${secret-key}
 
+oauth:
+  google:
+    client_id : ${google_client_id}
+    client_pw : ${google.client_pw}
+    redirect_url : ${google_redirect_uri}
+
 spring:
   data:
     redis:
       host: localhost
       port: ${redis-port}
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${mail-username}
+    password: ${mail-password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
