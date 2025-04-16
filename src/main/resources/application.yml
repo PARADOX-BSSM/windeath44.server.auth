@@ -1,26 +1,25 @@
 server:
   port:
-    ${server-port}
+    ${SERVER_PORT}
 
 grpc:
   client:
     user-server:
-      address: ${grpc-user-server-address}
+      address: ${GRPC_USER_SERVER_ADDRESS}
       negotiationType: "plaintext"
 
 jwt:
-  refresh-time: ${refresh-time}
-  access-time: ${access-time}
-  secret-key: ${secret-key}
+  refresh-time: ${REFRESH_TIME}
+  access-time: ${ACCESS_TIME}
 
 oauth:
   google:
-    client_id : ${google_client_id}
-    client_pw : ${google.client_pw}
-    redirect_url : ${google_redirect_uri}
+    client_id : ${GOOGLE_CLIENT_ID}
+    client_pw : ${GOOGLE_CLIENT_PW}
+    redirect_url : ${GOOGLE_REDIRECT_URL}
 
 spring:
   data:
     redis:
-      host: localhost
-      port: ${redis-port}
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
