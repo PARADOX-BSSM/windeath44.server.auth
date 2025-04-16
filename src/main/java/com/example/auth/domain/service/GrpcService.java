@@ -1,6 +1,6 @@
 package com.example.auth.domain.service;
 
-import com.example.auth.domain.exception.DontExistsUserException;
+import com.example.auth.domain.exception.NotFoundUserException;
 import com.example.auth.domain.exception.GrpcMappedException;
 import com.example.auth.domain.exception.GrpcStatusMapper;
 import com.example.auth.domain.presentation.dto.response.UserCheckInfo;
@@ -34,7 +34,7 @@ public class GrpcService {
 
   private void validateIfUserExist(boolean userExists) {
     if (!userExists) {
-      throw new DontExistsUserException("User don't exists.");
+      throw new NotFoundUserException("User don't exists.");
     }
   }
 
