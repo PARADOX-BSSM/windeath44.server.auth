@@ -9,7 +9,7 @@ service AuthenticationService {
 }
 
 message CheckUserRequest {
-  string email = 1;
+  string userId = 1;
   string password = 2;
 }
 

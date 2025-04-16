@@ -4,7 +4,6 @@ import com.example.auth.domain.presentation.dto.request.TokenRequest;
 import com.example.auth.domain.presentation.dto.request.UserLoginRequest;
 import com.example.auth.domain.presentation.dto.response.TokenResponse;
 import com.example.auth.domain.service.AuthService;
-import com.example.auth.domain.service.GoogleAuthService;
 import com.example.auth.domain.service.MailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,14 +19,13 @@ public class AuthController {
   private final AuthService authService;
   private final MailService mailService;
   @PostMapping("/login")
-  public ResponseEntity<Void> loginCustom(@RequestBody @Valid UserLoginRequest request) {
+  public ResponseEntity<Void> login(@RequestBody @Valid UserLoginRequest request) {
     TokenResponse tokenResponse = authService.login(request);
     HttpHeaders httpHeaders = getHttpHeaders(tokenResponse);
     return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
             .headers(httpHeaders)
             .build();
-
   }
 
   @PostMapping("/reissue")
@@ -42,8 +40,8 @@ public class AuthController {
 
   @PostMapping("/valid/email")
   @ResponseStatus(HttpStatus.OK)
-  public void validEmail(@RequestBody String email) {
-    mailService.sendToAuthorization(email);
+  public void validEmail(@RequestBody ValidationEmailRequest request) {
+    mailService.sendToAuthorization(request.email()); // 메일 전
   }
 
   private ResponseCookie createCookie(String key, String value) {

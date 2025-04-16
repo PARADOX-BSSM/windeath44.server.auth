@@ -20,23 +20,27 @@ public class GrpcService {
   @GrpcClient("user-server")
   private AuthenticationServiceGrpc.AuthenticationServiceBlockingStub authenticationSerivceBlockingStub;
 
-  public UserCheckInfo checkUser(String email, String password) {
-    CheckUserResponse response = sendToLoginUserRequest(email, password);
+  public UserCheckInfo checkUser(String userId, String password) {
+    CheckUserResponse response = sendToLoginUserRequest(userId, password);
     boolean userExists = response.getExistsUser();
 
-    if (!userExists) {
-      throw new DontExistsUserException("User don't exists.");
-    }
+    validateIfUserExist(userExists);
 
-    String userId = response.getUserId();
+    userId = response.getUserId();
     String role = response.getRole();
     UserCheckInfo userCheckInfo = UserCheckInfo.create(userId, role);
     return userCheckInfo;
   }
 
-  private CheckUserResponse sendToLoginUserRequest (String email, String password) {
+  private void validateIfUserExist(boolean userExists) {
+    if (!userExists) {
+      throw new DontExistsUserException("User don't exists.");
+    }
+  }
+
+  private CheckUserResponse sendToLoginUserRequest (String userId, String password) {
     CheckUserRequest request = CheckUserRequest.newBuilder()
-            .setEmail(email)
+            .setUserId(userId)
             .setPassword(password)
             .build();
     CheckUserResponse response = getCheckUserResponse(request);

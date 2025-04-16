@@ -1,14 +1,13 @@
 package com.example.auth.global.fegin.dto;
 
-public record GoogleUserResponse (
-  String sub,
+public record OAuthUserResponse(
   String name,
   String email
 ) {
 
 }
 
-//{ 구글이 제공해ㅔ주는 응답데이터 예시
+//{ 구글이 제공해주는 응답데이터 예시
 //        "sub": "1234567890", -> Google 계정의 고유 ID
 //        "name": "방세준", -> 이름
 //        "given_name": "세준", -> 이름
