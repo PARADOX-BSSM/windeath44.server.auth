@@ -24,11 +24,23 @@ spring:
     redis:
       host: localhost
       port: ${redis-port}
+#mail:
+#  host: smtp.gmail.com
+#  port: 587
+#  username: ${mail-username}
+#  password: ${mail-password}
+#  smtp:
+#    auth: true
+#    timeout: 5000
+#    starttls:
+#      enable: true
+#
+
 mail:
   host: smtp.gmail.com
   port: 587
-  username: ${mail-username}
-  password: ${mail-password}
+  username: pdh0128a@gmail.com
+  password: wexlqdhunlkyasoa
   smtp:
     auth: true
     timeout: 5000
