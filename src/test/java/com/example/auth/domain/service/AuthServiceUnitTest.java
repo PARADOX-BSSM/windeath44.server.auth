@@ -5,6 +5,8 @@ import com.example.auth.domain.domain.repository.RefreshTokenRepository;
 import com.example.auth.domain.presentation.dto.request.TokenRequest;
 import com.example.auth.domain.presentation.dto.response.TokenResponse;
 import com.example.auth.global.jwt.JwtProvider;
+
+import net.devh.boot.grpc.server.service.GrpcService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

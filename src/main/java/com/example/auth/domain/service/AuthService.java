@@ -1,28 +1,23 @@
 package com.example.auth.domain.service;
 
-import com.example.auth.domain.domain.RandomStringKey;
 import com.example.auth.domain.domain.RefreshToken;
-import com.example.auth.domain.domain.repository.RandomStringKeyRepository;
 import com.example.auth.domain.domain.repository.RefreshTokenRepository;
 import com.example.auth.domain.exception.NotFoundRefreshTokenException;
-import com.example.auth.domain.presentation.dto.request.TokenRequest;
 import com.example.auth.domain.presentation.dto.request.UserLoginRequest;
 import com.example.auth.domain.presentation.dto.response.TokenResponse;
 import com.example.auth.domain.presentation.dto.response.UserCheckInfo;
+import com.example.auth.domain.service.gRPC.GrpcClientService;
 import com.example.auth.global.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-  private final GrpcService authGrpcService;
+  private final GrpcClientService authGrpcService;
   private final JwtProvider jwtProvider;
   private final RefreshTokenRepository refreshTokenRepository;
-  private final RandomStringKeyRepository randomStringKeyRepository;
 
   public TokenResponse login(UserLoginRequest request) {
     UserCheckInfo userCheckInfo = authGrpcService.checkUser(request.userId(), request.password());
@@ -40,7 +35,7 @@ public class AuthService {
     return tokenResponse;
   }
 
-  public TokenResponse reissue(TokenRequest refreshToken) {
+  public TokenResponse reissue(String refreshToken) {
     RefreshToken token = getRefreshToken(refreshToken);
     String userId = token.getUserId();
     String role = token.getRole();
@@ -48,18 +43,16 @@ public class AuthService {
     return tokenResponse;
   }
 
-  private RefreshToken getRefreshToken(TokenRequest refreshToken) {
-    RefreshToken token = refreshTokenRepository.findById(refreshToken.refreshToken())
+  public void logout(String refreshToken) {
+    RefreshToken token = getRefreshToken(refreshToken); // only delete
+  }
+
+  private RefreshToken getRefreshToken(String refreshToken) {
+    RefreshToken token = refreshTokenRepository.findById(refreshToken)
             .orElseThrow(() -> new NotFoundRefreshTokenException("Not found refresh token with id"));
-    refreshTokenRepository.delete(token); // refresh token rotate
+    refreshTokenRepository.delete(token); // To rotate refresh token
     return token;
   }
 
-  public String createRandomStringKey(int length) {
-    String authorizationKey = UUID.randomUUID().toString().substring(0, length);
-    RandomStringKey randomStringKey = RandomStringKey.create(authorizationKey);
-    randomStringKeyRepository.save(randomStringKey);
-    return authorizationKey;
-  }
 
 }

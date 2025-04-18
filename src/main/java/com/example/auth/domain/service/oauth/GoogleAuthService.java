@@ -1,5 +1,6 @@
 package com.example.auth.domain.service.oauth;
 
+import com.example.auth.domain.service.EmailValidationService;
 import com.example.auth.global.config.properties.GoogleOauthProperties;
 import com.example.auth.global.fegin.GoogleOauthFeign;
 import com.example.auth.global.fegin.GoogleUserInfoFeign;
@@ -15,6 +16,8 @@ public class GoogleAuthService implements OAuthService {
   private final GoogleOauthProperties googleOauthProperties;
   private final GoogleOauthFeign googleOauthFeign;
   private final GoogleUserInfoFeign googleUserInfoFeign;
+  
+  private final EmailValidationService emailValidationService;
 
   private final String GOOGLE = "google";
   private final String BASE_URL = "https://accounts.google.com/o/oauth2/v2/auth";
@@ -43,7 +46,16 @@ public class GoogleAuthService implements OAuthService {
     GoogleTokenResponse googleTokenResponse = googleOauthFeign.getToken(code, clientId, clientPw, redirectUrl, "authorization_code");
     String token = "Bearer " + googleTokenResponse.access_token();
     OAuthUserResponse googleUserInfo = googleUserInfoFeign.getUserInfo(token);
+    
+    String email = googleUserInfo.email();
+    settingValidEmail(email);
+
     return googleUserInfo;
+  }
+
+  private void settingValidEmail(String email) {
+    emailValidationService.initEmailVerification(email);
+    emailValidationService.verifyEmail(email);
   }
 
   @Override

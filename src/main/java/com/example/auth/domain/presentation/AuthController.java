@@ -2,6 +2,8 @@ package com.example.auth.domain.presentation;
 
 import com.example.auth.domain.presentation.dto.request.TokenRequest;
 import com.example.auth.domain.presentation.dto.request.UserLoginRequest;
+import com.example.auth.domain.presentation.dto.request.ValidationEmailCodeRequest;
+import com.example.auth.domain.presentation.dto.request.ValidationEmailRequest;
 import com.example.auth.domain.presentation.dto.response.TokenResponse;
 import com.example.auth.domain.service.AuthService;
 import com.example.auth.domain.service.MailService;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
   private final AuthService authService;
-  private final MailService mailService;
+
   @PostMapping("/login")
   public ResponseEntity<Void> login(@RequestBody @Valid UserLoginRequest request) {
     TokenResponse tokenResponse = authService.login(request);
@@ -29,8 +31,8 @@ public class AuthController {
   }
 
   @PostMapping("/reissue")
-  public ResponseEntity<Void> reissue(@RequestBody @Valid TokenRequest refreshToken) {
-    TokenResponse tokenResponse = authService.reissue(refreshToken);
+  public ResponseEntity<Void> reissue(@RequestBody @Valid TokenRequest request) {
+    TokenResponse tokenResponse = authService.reissue(request.refreshToken());
     HttpHeaders httpHeaders = getHttpHeaders(tokenResponse);
     return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
@@ -38,10 +40,10 @@ public class AuthController {
             .build();
   }
 
-  @PostMapping("/valid/email")
+  @PostMapping("/logout")
   @ResponseStatus(HttpStatus.OK)
-  public void validEmail(@RequestBody ValidationEmailRequest request) {
-    mailService.sendToAuthorization(request.email()); // 메일 전
+  public void logout(@RequestBody @Valid TokenRequest request) {
+    authService.logout(request.refreshToken());
   }
 
   private ResponseCookie createCookie(String key, String value) {

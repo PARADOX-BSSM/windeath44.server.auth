@@ -9,6 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("mail")
 public class MailProperties {
   private String host;
+  private String domain;
   private Integer port;
   private String username;
   private String password;
