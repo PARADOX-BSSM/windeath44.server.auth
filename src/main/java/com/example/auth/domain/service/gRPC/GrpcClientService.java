@@ -3,6 +3,7 @@ package com.example.auth.domain.service.gRPC;
 import com.example.auth.domain.exception.NotFoundUserException;
 import com.example.auth.domain.exception.GrpcMappedException;
 import com.example.auth.domain.exception.GrpcStatusMapper;
+import com.example.auth.domain.presentation.dto.response.UserCheckInfo;
 import com.example.grpc.*;
 import io.grpc.StatusRuntimeException;
 import lombok.RequiredArgsConstructor;
@@ -15,14 +16,16 @@ public class GrpcClientService {
   @GrpcClient("user-server")
   private UserLoginServiceGrpc.UserLoginServiceBlockingStub authenticationServiceBlockingStub;
 
-  public String checkUser(String userId, String password) {
+  public UserCheckInfo checkUser(String userId, String password) {
     UserLoginResponse response = sendToLoginUserRequest(userId, password);
     boolean userExists = response.getExistsUser();
 
     validateIfUserExist(userExists);
 
-    String userKey = response.getUserKey();
-    return userKey;
+    UserCheckInfo userCheckInfo = UserCheckInfo.create(response.getUserId(), response.getRole());
+
+
+    return userCheckInfo;
   }
 
   private void validateIfUserExist(boolean userExists) {
