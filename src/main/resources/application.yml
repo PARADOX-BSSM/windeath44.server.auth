@@ -1,48 +1,43 @@
 server:
   port:
-    ${server-port}
+    ${SERVER_PORT}
 
 grpc:
+  server:
+    address: ${GRPC_SERVER_ADDRESS}
+    port: ${GRPC_SERVER_PORT}
+
   client:
     user-server:
-      address: ${grpc-user-server-address}
+      address: ${GRPC_USER_SERVER_ADDRESS}
       negotiationType: "plaintext"
 
+
 jwt:
-  refresh-time: ${refresh-time}
-  access-time: ${access-time}
-  secret-key: ${secret-key}
+  refresh-time: ${REFRESH_TIME}
+  access-time: ${ACCESS_TIME}
 
 oauth:
   google:
-    client_id : ${google_client_id}
-    client_pw : ${google.client_pw}
-    redirect_url : ${google_redirect_uri}
+    client_id : ${GOOGLE_CLIENT_ID}
+    client_pw : ${GOOGLE_CLIENT_PW}
+    redirect_url : ${GOOGLE_REDIRECT_URL}
 
 spring:
   data:
     redis:
       host: localhost
-      port: ${redis-port}
-#mail:
-#  host: smtp.gmail.com
-#  port: 587
-#  username: ${mail-username}
-#  password: ${mail-password}
-#  smtp:
-#    auth: true
-#    timeout: 5000
-#    starttls:
-#      enable: true
-#
+      port: ${REDIS_PORT}
 
 mail:
   host: smtp.gmail.com
   port: 587
-  username: pdh0128a@gmail.com
-  password: wexlqdhunlkyasoa
+  domain : http://localhost:4444
+  username: ${MAIL_USERNAME}
+  password: ${MAIL_PASSWORD}
   smtp:
     auth: true
     timeout: 5000
     starttls:
       enable: true
+
