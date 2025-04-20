@@ -12,6 +12,7 @@ grpc:
       address: ${GRPC_USER_SERVER_ADDRESS}
       negotiationType: "plaintext"
 
+
 jwt:
   refresh-time: ${REFRESH_TIME}
   access-time: ${ACCESS_TIME}
