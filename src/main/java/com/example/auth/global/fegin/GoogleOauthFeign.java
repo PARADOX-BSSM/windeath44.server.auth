@@ -1,6 +1,7 @@
 package com.example.auth.global.fegin;
 
 import com.example.auth.global.fegin.dto.GoogleTokenResponse;
+import com.example.auth.global.fegin.dto.OAuthUserResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;

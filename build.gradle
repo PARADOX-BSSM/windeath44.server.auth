@@ -21,6 +21,18 @@ dependencyManagement {
 
 repositories { mavenCentral() }
 dependencies {
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+    implementation 'net.devh:grpc-server-spring-boot-starter:2.15.0.RELEASE'
+    implementation 'net.devh:grpc-client-spring-boot-starter:2.15.0.RELEASE'
+
+    implementation platform('io.grpc:grpc-bom:1.58.0')
+    implementation 'io.grpc:grpc-protobuf'
+    implementation 'io.grpc:grpc-stub'
+    implementation 'io.grpc:grpc-core'
+    implementation 'io.grpc:grpc-api'
+
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
     implementation 'javax.annotation:javax.annotation-api:1.3.2'
@@ -42,13 +54,6 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-    implementation platform('io.grpc:grpc-bom:1.62.2') // ★ 통일
-
-    implementation 'net.devh:grpc-client-spring-boot-starter:2.15.0.RELEASE'
-    implementation 'io.grpc:grpc-protobuf'
-    implementation 'io.grpc:grpc-stub'
-    implementation 'io.grpc:grpc-core'
-    implementation 'io.grpc:grpc-api'
 }
 
 
