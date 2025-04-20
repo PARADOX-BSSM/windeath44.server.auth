@@ -1,6 +1,5 @@
 package com.example.auth.domain.domain;
 
-import com.example.auth.domain.exception.EmailVerificationFailedException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;

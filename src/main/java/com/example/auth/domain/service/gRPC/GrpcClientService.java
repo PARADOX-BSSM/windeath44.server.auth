@@ -3,33 +3,28 @@ package com.example.auth.domain.service.gRPC;
 import com.example.auth.domain.exception.NotFoundUserException;
 import com.example.auth.domain.exception.GrpcMappedException;
 import com.example.auth.domain.exception.GrpcStatusMapper;
-import com.example.auth.domain.presentation.dto.response.UserCheckInfo;
-import com.example.grpc.UserLoginRequest;
-import com.example.grpc.UserLoginResponse;
-import com.example.grpc.UserLoginServiceGrpc;
+import com.example.grpc.*;
 import io.grpc.StatusRuntimeException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class GrpcClientService {
   @GrpcClient("user-server")
   private UserLoginServiceGrpc.UserLoginServiceBlockingStub authenticationServiceBlockingStub;
+  @GrpcClient("user-server")
+  private OauthUserLoginServiceGrpc.OauthUserLoginServiceBlockingStub oauthUserLoginServiceBlockingStub;
 
-  public UserCheckInfo checkUser(String userId, String password) {
+  public String checkUser(String userId, String password) {
     UserLoginResponse response = sendToLoginUserRequest(userId, password);
     boolean userExists = response.getExistsUser();
 
     validateIfUserExist(userExists);
 
-    userId = response.getUserId();
-    String role = response.getRole();
-    UserCheckInfo userCheckInfo = UserCheckInfo.create(userId, role);
-    return userCheckInfo;
+    String userKey = response.getUserKey();
+    return userKey;
   }
 
   private void validateIfUserExist(boolean userExists) {
@@ -43,11 +38,31 @@ public class GrpcClientService {
             .setUserId(userId)
             .setPassword(password)
             .build();
-    UserLoginResponse response = getCheckUserResponse(request);
+    UserLoginResponse response = getCheckLoginUserResponse(request);
     return response;
   }
 
-  private UserLoginResponse getCheckUserResponse(UserLoginRequest request) {
+  public String registerUserFromOauth(String email, String name) {
+      OauthUserLoginResponse oauthUserLoginResponse = sendToOAuthUserRequest(email, name);
+      String userKey = oauthUserLoginResponse.getUserKey();
+      return userKey;
+  }
+
+  private OauthUserLoginResponse sendToOAuthUserRequest (String email, String name) {
+    OauthUserLoginRequest request = OauthUserLoginRequest.newBuilder()
+            .setEmail(email)
+            .setProfile(name)
+            .build();
+    OauthUserLoginResponse response = getOAuthUserResponse(request);
+    return response;
+  }
+
+  private OauthUserLoginResponse getOAuthUserResponse(OauthUserLoginRequest request) {
+    OauthUserLoginResponse response = oauthUserLoginServiceBlockingStub.oauthUserRegister(request);
+    return response;
+  }
+
+  private UserLoginResponse getCheckLoginUserResponse(UserLoginRequest request) {
     try {
       UserLoginResponse response = authenticationServiceBlockingStub.checkUser(request);
       return response;

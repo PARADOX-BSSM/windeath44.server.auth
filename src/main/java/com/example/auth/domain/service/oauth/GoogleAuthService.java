@@ -38,7 +38,7 @@ public class GoogleAuthService implements OAuthService {
   }
 
   @Override
-  public OAuthUserResponse getUserInfo(String code) {
+  public OAuthUserResponse login(String code) {
     String clientId = googleOauthProperties.getClient_id();
     String redirectUrl = googleOauthProperties.getRedirect_url();
     String clientPw = googleOauthProperties.getClient_pw();

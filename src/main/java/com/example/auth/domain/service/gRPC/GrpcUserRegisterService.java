@@ -21,12 +21,12 @@ public class GrpcUserRegisterService extends UserRegisterServiceGrpc.UserRegiste
 
   @Override
   public void checkEmailValidation(UserRegisterRequest request, StreamObserver<UserRegisterResponse> responseObserver) {
+    // User server에서 회원가입 시, 이메일 검증 상태인지 확인
     try {
       String email = request.getEmail();
       EmailValidation emailValidation = getEmailValidation(email);
       emailValidation.ValidateEmail();
       UserRegisterResponse userRegisterResponse = UserRegisterResponse.newBuilder()
-              .setEmailValidation(true)
               .build();
       responseObserver.onNext(userRegisterResponse);
       responseObserver.onCompleted();
