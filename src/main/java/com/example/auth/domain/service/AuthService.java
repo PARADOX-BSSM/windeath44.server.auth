@@ -5,6 +5,7 @@ import com.example.auth.domain.domain.repository.RefreshTokenRepository;
 import com.example.auth.domain.exception.NotFoundRefreshTokenException;
 import com.example.auth.domain.presentation.dto.request.UserLoginRequest;
 import com.example.auth.domain.presentation.dto.response.TokenResponse;
+import com.example.auth.domain.presentation.dto.response.UserCheckInfo;
 import com.example.auth.domain.service.gRPC.GrpcClientService;
 import com.example.auth.global.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
@@ -19,15 +20,18 @@ public class AuthService {
   private final RefreshTokenRepository refreshTokenRepository;
 
   public TokenResponse login(UserLoginRequest request) {
-    String userKey = grpcClientService.checkUser(request.userId(), request.password());
-    TokenResponse tokenResponse = jwtProvider.getTokenResponse(userKey);
+    UserCheckInfo userCheckInfo = grpcClientService.checkUser(request.userId(), request.password());
+    String userId = userCheckInfo.userId();
+    String role = userCheckInfo.role();
+    TokenResponse tokenResponse = jwtProvider.getTokenResponse(userId, role);
     return tokenResponse;
   }
 
   public TokenResponse reissue(String refreshToken) {
     RefreshToken token = getRefreshToken(refreshToken);
-    String userKey = token.getUserKey();
-    TokenResponse tokenResponse = jwtProvider.getTokenResponse(userKey);
+    String userId = token.getUserId();
+    String role = token.getRole();
+    TokenResponse tokenResponse = jwtProvider.getTokenResponse(userId, role);
     return tokenResponse;
   }
 

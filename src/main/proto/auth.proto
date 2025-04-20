@@ -17,7 +17,8 @@ message UserLoginRequest {
 
 message UserLoginResponse {
   bool existsUser = 1;
-  string userKey = 2;
+  string userId = 2;
+  string role = 3;
 }
 
 // email Validate to register
@@ -32,19 +33,4 @@ message UserRegisterRequest {
 
 message UserRegisterResponse {
 
-}
-
-// OAuth User Login
-
-service OauthUserLoginService {
-  rpc OauthUserRegister(OauthUserLoginRequest) returns (OauthUserLoginResponse);
-}
-
-message  OauthUserLoginRequest{
-  string email = 1;
-  string profile = 2; // = name
-}
-
-message OauthUserLoginResponse {
-  string userKey = 1;
 }

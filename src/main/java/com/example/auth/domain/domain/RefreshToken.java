@@ -11,12 +11,14 @@ import org.springframework.data.redis.core.RedisHash;
 public class RefreshToken {
   @Id
   private String refreshToken;
-  private String userKey;
+  private String userId;
+  private String role;
 
-  public static RefreshToken create(String refreshToken, String userKey) {
+  public static RefreshToken create(String refreshToken, String userId, String role) {
     return RefreshToken.builder()
             .refreshToken(refreshToken)
-            .userKey(userKey)
+            .userId(userId)
+            .role(role)
             .build();
   }
 }
