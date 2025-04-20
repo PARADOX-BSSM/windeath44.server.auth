@@ -3,7 +3,7 @@ package com.example.auth.domain.service;
 import com.example.auth.domain.domain.EmailValidation;
 import com.example.auth.domain.domain.EmailValidationState;
 import com.example.auth.domain.domain.repository.EmailValidationRepository;
-import com.example.auth.domain.exception.NotFoundRandomStringKeyException;
+import com.example.auth.domain.exception.NotFoundEmailValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,7 @@ public class EmailValidationService {
 
   private EmailValidation getEmailValidation(String email) {
     EmailValidation emailValidation  = emailValidationRepository.findById(email)
-            .orElseThrow(() -> new NotFoundRandomStringKeyException("Not Found randomStringKey with code"));
+            .orElseThrow(() -> new NotFoundEmailValidationException("Not Found randomStringKey with code"));
     return emailValidation;
   }
 }

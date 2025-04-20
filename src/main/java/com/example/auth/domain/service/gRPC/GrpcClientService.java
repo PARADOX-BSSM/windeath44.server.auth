@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 public class GrpcClientService {
   @GrpcClient("user-server")
   private UserLoginServiceGrpc.UserLoginServiceBlockingStub authenticationServiceBlockingStub;
-  @GrpcClient("user-server")
-  private OauthUserLoginServiceGrpc.OauthUserLoginServiceBlockingStub oauthUserLoginServiceBlockingStub;
 
   public String checkUser(String userId, String password) {
     UserLoginResponse response = sendToLoginUserRequest(userId, password);
@@ -42,25 +40,6 @@ public class GrpcClientService {
     return response;
   }
 
-  public String registerUserFromOauth(String email, String name) {
-      OauthUserLoginResponse oauthUserLoginResponse = sendToOAuthUserRequest(email, name);
-      String userKey = oauthUserLoginResponse.getUserKey();
-      return userKey;
-  }
-
-  private OauthUserLoginResponse sendToOAuthUserRequest (String email, String name) {
-    OauthUserLoginRequest request = OauthUserLoginRequest.newBuilder()
-            .setEmail(email)
-            .setProfile(name)
-            .build();
-    OauthUserLoginResponse response = getOAuthUserResponse(request);
-    return response;
-  }
-
-  private OauthUserLoginResponse getOAuthUserResponse(OauthUserLoginRequest request) {
-    OauthUserLoginResponse response = oauthUserLoginServiceBlockingStub.oauthUserRegister(request);
-    return response;
-  }
 
   private UserLoginResponse getCheckLoginUserResponse(UserLoginRequest request) {
     try {
