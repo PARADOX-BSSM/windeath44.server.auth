@@ -1,8 +1,6 @@
 package com.example.auth.global.exception;
 
-import com.example.auth.domain.exception.NotFoundUserException;
-import com.example.auth.domain.exception.GrpcMappedException;
-import com.example.auth.domain.exception.NotFoundRefreshTokenException;
+import com.example.auth.domain.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,15 +20,35 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(NotFoundUserException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  public void dontExistsUserException(NotFoundUserException e) {
+  public void dontExistsUserExceptionHandler(NotFoundUserException e) {
     log.error(e.getMessage());
   }
 
   @ExceptionHandler(GrpcMappedException.class)
-  public ResponseEntity<Void> grpcMappedException(GrpcMappedException e) {
+  public ResponseEntity<Void> grpcMappedExceptionHandler(GrpcMappedException e) {
     return ResponseEntity
             .status(e.getStatus())
             .build();
   }
+
+  @ExceptionHandler(NotFoundRandomStringKeyException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public void notFoundRandomStringKeyExceptionHandler(NotFoundRandomStringKeyException e) {
+    log.error(e.getMessage());
+  }
+
+  @ExceptionHandler(EmailSendFailedException.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  public void emailSendFailedExceptionHandler(EmailSendFailedException e) {
+    log.error(e.getMessage());
+  }
+
+  @ExceptionHandler(EmailException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public void emailExceptionHandler(EmailException e) {
+    log.error(e.getMessage());
+  }
+
+
 
 }
