@@ -1,4 +1,4 @@
-package com.example.auth.global.util.mail;
+package com.example.auth.global.mail;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;

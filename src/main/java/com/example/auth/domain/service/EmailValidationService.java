@@ -13,7 +13,7 @@ public class EmailValidationService {
   private final EmailValidationRepository emailValidationRepository;
 
   public void initEmailVerification(String email) {
-    EmailValidation emailValidation = EmailValidation.create(email, EmailValidationState.PENDING);
+    EmailValidation emailValidation = EmailValidation.create(email);
     emailValidationRepository.save(emailValidation);
   }
 

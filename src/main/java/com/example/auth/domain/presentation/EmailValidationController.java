@@ -18,7 +18,7 @@ public class EmailValidationController {
   @PostMapping
   @ResponseStatus(HttpStatus.OK)
   public void sendEmailVerificationCode(@RequestBody @Valid ValidationEmailRequest request) {
-    mailService.sendToAuthorization(request.email());
+    mailService.sendToAuthorizationForEmail(request.email());
   }
 
   @GetMapping("/{email}")
