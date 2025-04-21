@@ -1,6 +1,11 @@
 package com.example.auth.global.exception;
 
-import com.example.auth.domain.exception.*;
+import com.example.auth.domain.auth.exception.NotFoundRefreshTokenException;
+import com.example.auth.domain.mail.exception.EmailException;
+import com.example.auth.domain.mail.exception.EmailSendFailedException;
+import com.example.auth.domain.gRPC.exception.GrpcMappedException;
+import com.example.auth.domain.gRPC.exception.NotFoundUserException;
+import com.example.auth.domain.mail.exception.NotFoundRandomStringKeyException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

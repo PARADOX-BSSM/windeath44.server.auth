@@ -1,8 +1,8 @@
 package com.example.auth.global.jwt;
 
-import com.example.auth.domain.domain.RefreshToken;
-import com.example.auth.domain.domain.repository.RefreshTokenRepository;
-import com.example.auth.domain.presentation.dto.response.TokenResponse;
+import com.example.auth.domain.auth.domain.RefreshToken;
+import com.example.auth.domain.auth.domain.repository.RefreshTokenRepository;
+import com.example.auth.domain.auth.presentation.dto.response.TokenResponse;
 import com.example.auth.global.config.properties.JwtProperties;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
