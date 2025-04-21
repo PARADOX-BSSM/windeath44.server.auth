@@ -11,8 +11,8 @@ public class EmailValidation {
   private String email;
   private EmailValidationState state;
 
-  public static EmailValidation create(String email, EmailValidationState state) {
-    return new EmailValidation(email, state);
+  public static EmailValidation create(String email) {
+    return new EmailValidation(email, EmailValidationState.PENDING);
   }
 
   public void access() {

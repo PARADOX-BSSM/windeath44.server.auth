@@ -1,29 +1,32 @@
-package com.example.auth.global.util.mail;
+package com.example.auth.global.mail;
 
 import com.example.auth.domain.exception.EmailSendFailedException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.io.IOException;
+import java.util.Map;
 
 
-@RequiredArgsConstructor
 abstract class TemplateMailSender {
   private final SpringTemplateEngine templateEngine;
 
   protected final MailContextMaker mailContextMaker = new MailContextMaker();
 
-  public void send(String email, String title, String fileName, JavaMailSender mailSender) {
+  public TemplateMailSender(SpringTemplateEngine templateEngine) {
+    this.templateEngine = templateEngine;
+  }
+
+  public void send(MailMetadatas metadata, JavaMailSender mailSender) {
     try {
       MimeMessage mimeMessage = mailSender.createMimeMessage();
-      settingMessage(mimeMessage, email, title, fileName);
+      settingMessage(mimeMessage, metadata);
       // custom logic
-        doLogic(email); // abstract method
+        doLogic(metadata); // abstract method
       mailSender.send(mimeMessage);
     } catch (Exception e) {
       e.printStackTrace();
@@ -31,14 +34,19 @@ abstract class TemplateMailSender {
     }
   }
 
-  abstract void doLogic(String email);
+  abstract void doLogic(MailMetadatas metadatas);
 
-  private void settingMessage(MimeMessage mimeMessage, String email, String title, String fileName) throws MessagingException, IOException {
+  private void settingMessage(MimeMessage mimeMessage, MailMetadatas metadata) throws MessagingException, IOException {
     MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+    String email = metadata.getData("email");
+    String title = metadata.getData("title");
+    String fileName = metadata.getData("fileName");
+
     mimeMessageHelper.setTo(email);
     mimeMessageHelper.setSubject(title);
 
-    settingContextProperties(email); // abstract method
+    settingContextProperties(metadata); // abstract method
 
     String html = mailContextMaker.getContext(fileName, templateEngine);
     mimeMessageHelper.setText(html, true);
@@ -47,7 +55,7 @@ abstract class TemplateMailSender {
     mimeMessageHelper.addInline("heart", new ClassPathResource("static/images/heart.png").getFile());
     mimeMessageHelper.addInline("buttons", new ClassPathResource("static/images/buttons.png").getFile());
   }
-  abstract void settingContextProperties(String email);
+  abstract void settingContextProperties(MailMetadatas metadata);
 
   // settingContextProperties Example )
   // private void settingContextProperties() {

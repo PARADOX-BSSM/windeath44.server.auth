@@ -35,9 +35,10 @@ public class AuthServiceUnitTest {
   void when_request_refresh_token_then_issue_refresh_token_successfuly() {
     TokenRequest tokenRequest = new TokenRequest("I'mRefreshToken");
     String refreshToken = tokenRequest.refreshToken();
-    RefreshToken token = RefreshToken.create(refreshToken, "kingsejun");
+    String role = "USER";
+    RefreshToken token = RefreshToken.create(refreshToken, "kingsejun", role);
     given(refreshTokenRepository.findById(refreshToken)).willReturn(Optional.ofNullable(token));
     authService.reissue(tokenRequest.refreshToken());
-    then(jwtProvider).should().createAccessToken(token.getUserKey());
+    then(jwtProvider).should().createAccessToken(token.getUserId(), role);
   }
 }
