@@ -2,7 +2,7 @@ package com.example.auth.domain.mail.service;
 
 import com.example.auth.domain.mail.domain.RandomStringKey;
 import com.example.auth.domain.mail.domain.repository.RandomStringKeyRepository;
-import com.example.auth.domain.mail.exception.NotFoundRandomStringKeyException;
+import com.example.auth.domain.mail.service.exception.NotFoundRandomStringKeyException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -2,9 +2,9 @@ package com.example.auth.domain.mail.service;
 
 import com.example.auth.domain.mail.domain.RandomStringKey;
 import com.example.auth.global.config.properties.MailProperties;
-import com.example.auth.global.util.mail.EmailVerificationMailSender;
-import com.example.auth.global.util.mail.MailMetadatas;
-import com.example.auth.global.util.mail.RandomStringKeyMailSender;
+import com.example.auth.domain.mail.service.sender.EmailVerificationMailSender;
+import com.example.auth.domain.mail.service.sender.MailMetadatas;
+import com.example.auth.domain.mail.service.sender.RandomStringKeyMailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
