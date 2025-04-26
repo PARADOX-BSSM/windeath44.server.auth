@@ -1,8 +1,8 @@
 package com.example.auth.domain.gRPC.service;
 
-import com.example.auth.domain.gRPC.exception.NotFoundUserException;
-import com.example.auth.domain.gRPC.exception.GrpcMappedException;
-import com.example.auth.domain.gRPC.exception.GrpcStatusMapper;
+import com.example.auth.domain.gRPC.service.exception.NotFoundUserException;
+import com.example.auth.domain.gRPC.service.exception.GrpcMappedException;
+import com.example.auth.domain.gRPC.service.exception.GrpcStatusMapper;
 import com.example.auth.domain.gRPC.presentation.dto.response.UserCheckInfo;
 import com.example.grpc.*;
 import io.grpc.StatusRuntimeException;

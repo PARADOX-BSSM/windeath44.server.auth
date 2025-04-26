@@ -2,7 +2,7 @@ package com.example.auth.domain.mail.service;
 
 import com.example.auth.domain.mail.domain.EmailValidation;
 import com.example.auth.domain.mail.domain.repository.EmailValidationRepository;
-import com.example.auth.domain.mail.exception.NotFoundEmailValidationException;
+import com.example.auth.domain.mail.service.exception.NotFoundEmailValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
