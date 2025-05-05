@@ -1,4 +1,4 @@
-package com.example.auth.domain.mail.service;
+package com.example.auth.domain.mail.facade;
 
 import com.example.auth.domain.mail.domain.RandomStringKey;
 import com.example.auth.global.config.properties.MailProperties;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MailService {
+public class MailFacade {
   private final EmailVerificationMailSender emailVerificationMailSender;
   private final RandomStringKeyMailSender randomStringKeyMailSender;
 
