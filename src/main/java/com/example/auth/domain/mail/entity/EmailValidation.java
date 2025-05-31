@@ -11,15 +11,15 @@ public class EmailValidation {
   private String email;
   private EmailValidationState state;
 
-  public static EmailValidation create(String email) {
-    return new EmailValidation(email, EmailValidationState.PENDING);
-  }
-
   public void access() {
     this.state = EmailValidationState.ACCESS;
   }
 
   public void ValidateEmail() {
     this.state.isAccess();
+  }
+
+  public EmailValidationState getState() {
+    return this.state;
   }
 }
