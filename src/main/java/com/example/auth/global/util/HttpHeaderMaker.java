@@ -1,12 +1,13 @@
 package com.example.auth.global.util;
 
-import com.example.auth.domain.auth.presentation.dto.response.TokenResponse;
+import com.example.auth.domain.auth.dto.response.TokenResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
 @Component
 public class HttpHeaderMaker {
+
 
   public HttpHeaders makeToken(TokenResponse tokenResponse) {
     HttpHeaders httpHeaders = new HttpHeaders();

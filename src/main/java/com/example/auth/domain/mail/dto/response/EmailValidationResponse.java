@@ -1,4 +1,4 @@
-package com.example.auth.domain.mail.entity.dto.response;
+package com.example.auth.domain.mail.dto.response;
 
 import com.example.auth.domain.mail.entity.EmailValidationState;
 

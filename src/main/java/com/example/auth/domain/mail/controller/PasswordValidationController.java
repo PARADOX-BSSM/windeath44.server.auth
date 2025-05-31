@@ -1,8 +1,8 @@
-package com.example.auth.domain.mail.presentation;
+package com.example.auth.domain.mail.controller;
 
+import com.example.auth.domain.mail.dto.request.PasswordValidationRequest;
 import com.example.auth.domain.mail.facade.MailFacade;
-import com.example.auth.domain.mail.presentation.dto.request.PaasowordValidationRequest;
-import com.example.auth.domain.mail.presentation.dto.request.PasswordValidationCodeRequest;
+import com.example.auth.domain.mail.dto.request.PasswordValidationCodeRequest;
 import com.example.auth.domain.mail.service.PasswordValidationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class PasswordValidationController {
   private final PasswordValidationService passwordValidationService;
 
   @PostMapping
-  public void sendVerificationCode(@RequestBody @Valid PaasowordValidationRequest paasowordValidationRequest) {
+  public void sendVerificationCode(@RequestBody @Valid PasswordValidationRequest paasowordValidationRequest) {
     String userId = paasowordValidationRequest.userId();
     String email = paasowordValidationRequest.email();
     mailFacade.sendToAuthorizationForPassword(userId, email);

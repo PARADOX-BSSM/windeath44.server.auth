@@ -1,8 +1,8 @@
 package com.example.auth.gRPC.service;
 
-import com.example.auth.domain.auth.domain.RefreshToken;
-import com.example.auth.domain.auth.domain.repository.RefreshTokenRepository;
-import com.example.auth.domain.auth.presentation.dto.request.TokenRequest;
+import com.example.auth.domain.auth.entity.RefreshToken;
+import com.example.auth.domain.auth.repository.RefreshTokenRepository;
+import com.example.auth.domain.auth.dto.request.TokenRequest;
 import com.example.auth.domain.auth.service.AuthService;
 import com.example.auth.global.jwt.JwtProvider;
 

@@ -10,4 +10,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class JwtProperties {
   private Long refreshTime;
   private Long accessTime;
+  private String header;
+  private String prefix;
 }

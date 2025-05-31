@@ -1,4 +1,4 @@
-package com.example.auth.domain.mail.domain;
+package com.example.auth.domain.mail.entity;
 
 import io.grpc.Status;
 

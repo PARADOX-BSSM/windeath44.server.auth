@@ -1,32 +1,24 @@
-package com.example.auth.global.exception;
+package com.example.auth.global.error;
 
-import com.example.auth.domain.auth.service.exception.NotFoundRefreshTokenException;
-import com.example.auth.domain.mail.service.exception.EmailException;
-import com.example.auth.domain.mail.service.exception.EmailSendFailedException;
-import com.example.auth.domain.gRPC.service.exception.GrpcMappedException;
-import com.example.auth.domain.gRPC.service.exception.NotFoundUserException;
-import com.example.auth.domain.mail.service.exception.NotFoundRandomStringKeyException;
+import com.example.auth.domain.gRPC.exception.GrpcMappedException;
+import com.example.auth.global.error.exception.ErrorCode;
+import com.example.auth.global.error.exception.GlobalException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 
-  @ExceptionHandler(NotFoundRefreshTokenException.class)
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  public void notFoundRefresTokenExceptionHandler(NotFoundRefreshTokenException e) {
+  @ExceptionHandler(GlobalException.class)
+  public ResponseEntity<ErrorResponse> globalExceptionHandler (GlobalException e) {
+    ErrorCode errorCode = e.getErrorCode();
+    int status = errorCode.getStatus();
     log.error(e.getMessage());
-  }
-
-  @ExceptionHandler(NotFoundUserException.class)
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  public void dontExistsUserExceptionHandler(NotFoundUserException e) {
-    log.error(e.getMessage());
+    return new ResponseEntity<>(new ErrorResponse(errorCode), HttpStatus.valueOf(status));
   }
 
   @ExceptionHandler(GrpcMappedException.class)
@@ -34,24 +26,6 @@ public class GlobalExceptionHandler {
     return ResponseEntity
             .status(e.getStatus())
             .build();
-  }
-
-  @ExceptionHandler(NotFoundRandomStringKeyException.class)
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  public void notFoundRandomStringKeyExceptionHandler(NotFoundRandomStringKeyException e) {
-    log.error(e.getMessage());
-  }
-
-  @ExceptionHandler(EmailSendFailedException.class)
-  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-  public void emailSendFailedExceptionHandler(EmailSendFailedException e) {
-    log.error(e.getMessage());
-  }
-
-  @ExceptionHandler(EmailException.class)
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  public void emailExceptionHandler(EmailException e) {
-    log.error(e.getMessage());
   }
 
 

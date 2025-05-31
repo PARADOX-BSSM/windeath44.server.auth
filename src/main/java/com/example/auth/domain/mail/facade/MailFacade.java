@@ -1,10 +1,10 @@
 package com.example.auth.domain.mail.facade;
 
-import com.example.auth.domain.mail.domain.RandomStringKey;
+import com.example.auth.domain.mail.entity.RandomStringKey;
 import com.example.auth.global.config.properties.MailProperties;
-import com.example.auth.domain.mail.service.sender.EmailVerificationMailSender;
-import com.example.auth.domain.mail.service.sender.MailMetadatas;
-import com.example.auth.domain.mail.service.sender.RandomStringKeyMailSender;
+import com.example.auth.domain.mail.sender.EmailVerificationMailSender;
+import com.example.auth.domain.mail.sender.MailMetadatas;
+import com.example.auth.domain.mail.sender.RandomStringKeyMailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -49,6 +49,5 @@ public class MailFacade {
 
     randomStringKeyMailSender.send(mailMetadatas,  javaMailSender);
   }
-
 
 }

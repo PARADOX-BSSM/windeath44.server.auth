@@ -1,4 +1,6 @@
 package com.example.auth.domain.mail.dto.request;
 
-public class PasswordValidationCodeRequest {
+public record PasswordValidationCodeRequest (
+        String authorizationCode
+) {
 }

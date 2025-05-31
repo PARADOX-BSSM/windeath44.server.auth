@@ -1,9 +1,9 @@
 package com.example.auth.domain.gRPC.service;
 
-import com.example.auth.domain.gRPC.service.exception.NotFoundUserException;
-import com.example.auth.domain.gRPC.service.exception.GrpcMappedException;
-import com.example.auth.domain.gRPC.service.exception.GrpcStatusMapper;
-import com.example.auth.domain.gRPC.presentation.dto.response.UserCheckInfo;
+import com.example.auth.domain.gRPC.exception.NotFoundUserException;
+import com.example.auth.domain.gRPC.exception.GrpcMappedException;
+import com.example.auth.domain.gRPC.exception.GrpcStatusMapper;
+import com.example.auth.domain.gRPC.dto.response.UserCheckInfo;
 import com.example.grpc.*;
 import io.grpc.StatusRuntimeException;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class GrpcClientService {
+
   @GrpcClient("user-server")
   private UserLoginServiceGrpc.UserLoginServiceBlockingStub authenticationServiceBlockingStub;
 
@@ -24,13 +25,12 @@ public class GrpcClientService {
 
     UserCheckInfo userCheckInfo = UserCheckInfo.create(response.getUserId(), response.getRole());
 
-
     return userCheckInfo;
   }
 
   private void validateIfUserExist(boolean userExists) {
     if (!userExists) {
-      throw new NotFoundUserException("User don't exists.");
+      throw NotFoundUserException.getInstance();
     }
   }
 

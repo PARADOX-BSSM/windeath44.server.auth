@@ -1,4 +1,4 @@
-package com.example.auth.domain.auth.presentation;
+package com.example.auth.domain.auth.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
