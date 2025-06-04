@@ -1,6 +1,5 @@
 package com.example.auth.domain.auth.controller;
 
-import com.example.auth.domain.auth.dto.request.TokenRequest;
 import com.example.auth.domain.auth.dto.request.UserLoginRequest;
 import com.example.auth.domain.auth.dto.response.TokenResponse;
 import com.example.auth.global.mapper.ResponseDtoMapper;
