@@ -5,8 +5,9 @@ import com.example.auth.domain.auth.dto.request.UserLoginRequest;
 import com.example.auth.domain.auth.dto.response.TokenResponse;
 import com.example.auth.global.mapper.ResponseDtoMapper;
 import com.example.auth.global.mapper.dto.ResponseDto;
-import com.example.auth.global.util.HttpHeaderMaker;
+import com.example.auth.global.util.HttpUtil;
 import com.example.auth.domain.auth.service.AuthService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -18,13 +19,13 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
   private final AuthService authService;
-  private final HttpHeaderMaker httpHeaderMaker;
+  private final HttpUtil httpUtil;
   private final ResponseDtoMapper responseDtoMapper;
 
   @PostMapping("/login")
   public ResponseEntity<ResponseDto<Void>> login(@RequestBody @Valid UserLoginRequest request) {
     TokenResponse tokenResponse = authService.login(request);
-    HttpHeaders httpHeaders = httpHeaderMaker.makeToken(tokenResponse);
+    HttpHeaders httpHeaders = httpUtil.makeToken(tokenResponse);
     ResponseDto<Void> responseDto = responseDtoMapper.toResponseDto("login", null);
     return ResponseEntity
             .status(HttpStatus.ACCEPTED)
@@ -33,9 +34,10 @@ public class AuthController {
   }
 
   @PostMapping("/reissue")
-  public ResponseEntity<ResponseDto<Void>> reissue(@RequestBody @Valid TokenRequest request) {
-    TokenResponse tokenResponse = authService.reissue(request.refreshToken());
-    HttpHeaders httpHeaders = httpHeaderMaker.makeToken(tokenResponse);
+  public ResponseEntity<ResponseDto<Void>> reissue(HttpServletRequest request) {
+    String refreshToken = httpUtil.parseCookie("refreshToken", request.getCookies());
+    TokenResponse tokenResponse = authService.reissue(refreshToken);
+    HttpHeaders httpHeaders = httpUtil.makeToken(tokenResponse);
     ResponseDto<Void> responseDto = responseDtoMapper.toResponseDto("access token reissue", null);
     return ResponseEntity
             .status(HttpStatus.ACCEPTED)
@@ -44,8 +46,9 @@ public class AuthController {
   }
 
   @PostMapping("/logout")
-  public ResponseEntity<ResponseDto<Void>> logout(@RequestBody @Valid TokenRequest request) {
-    authService.logout(request.refreshToken());
+  public ResponseEntity<ResponseDto<Void>> logout(HttpServletRequest request) {
+    String refreshToken = httpUtil.parseCookie("refreshToken", request.getCookies());
+    authService.logout(refreshToken);
     ResponseDto<Void> responseDto = responseDtoMapper.toResponseDto("logout", null);
     return ResponseEntity.ok(responseDto);
   }

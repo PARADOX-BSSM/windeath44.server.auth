@@ -1,12 +1,13 @@
 package com.example.auth.global.util;
 
 import com.example.auth.domain.auth.dto.response.TokenResponse;
+import jakarta.servlet.http.Cookie;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HttpHeaderMaker {
+public class HttpUtil {
 
 
   public HttpHeaders makeToken(TokenResponse tokenResponse) {
@@ -21,5 +22,14 @@ public class HttpHeaderMaker {
             .httpOnly(true)
             .maxAge(86400)
             .build();
+  }
+
+  public String parseCookie(String key, Cookie[] cookies) {
+    for (Cookie cookie : cookies) {
+      if (cookie.getName().equals(key)) {
+        return cookie.getValue();
+      }
+    }
+    return null;
   }
 }
