@@ -1,7 +1,7 @@
 package com.example.auth.domain.gRPC.service;
 
-import com.example.auth.domain.mail.domain.EmailValidation;
-import com.example.auth.domain.mail.domain.repository.EmailValidationRepository;
+import com.example.auth.domain.mail.entity.EmailValidation;
+import com.example.auth.domain.mail.repository.EmailValidationRepository;
 import com.example.grpc.UserRegisterRequest;
 import com.example.grpc.UserRegisterResponse;
 import com.example.grpc.UserRegisterServiceGrpc;

@@ -28,6 +28,8 @@ dependencies {
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
+    implementation 'com.google.protobuf:protobuf-java:3.25.2'
+
     implementation 'net.devh:grpc-server-spring-boot-starter:2.15.0.RELEASE'
     implementation 'net.devh:grpc-client-spring-boot-starter:2.15.0.RELEASE'
 
@@ -85,4 +87,8 @@ sourceSets {
             srcDir 'src/main/proto'
         }
     }
+}
+
+tasks.named('processResources') {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

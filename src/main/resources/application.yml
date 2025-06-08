@@ -16,6 +16,8 @@ grpc:
 jwt:
   refresh-time: ${REFRESH_TIME}
   access-time: ${ACCESS_TIME}
+  header : "Authorization"
+  prefix : "Bearer "
 
 oauth:
   google:
