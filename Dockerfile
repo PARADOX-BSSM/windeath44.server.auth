@@ -22,7 +22,5 @@ COPY --from=build /app/build/libs/*.jar app.jar
 # 컨테이너에서 열 포트 설정 (4444 포트)
 EXPOSE 4444
 
-CMD ["/bin/bash", "-c", "set -a; source /app/.env; set +a; java -jar /app/app.jar"]
-
 # 애플리케이션 실행
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
