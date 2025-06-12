@@ -1,6 +1,6 @@
 package com.example.auth.domain.mail.service;
 
-import com.example.auth.domain.mail.entity.EmailValidation;
+import com.example.auth.domain.mail.model.EmailValidation;
 import com.example.auth.domain.mail.mapper.EmailValidationMapper;
 import com.example.auth.domain.mail.repository.EmailValidationRepository;
 import com.example.auth.domain.mail.dto.response.EmailValidationResponse;

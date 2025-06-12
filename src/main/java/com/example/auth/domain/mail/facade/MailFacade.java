@@ -1,6 +1,6 @@
 package com.example.auth.domain.mail.facade;
 
-import com.example.auth.domain.mail.entity.RandomStringKey;
+import com.example.auth.domain.mail.model.RandomStringKey;
 import com.example.auth.global.config.properties.MailProperties;
 import com.example.auth.domain.mail.sender.EmailVerificationMailSender;
 import com.example.auth.domain.mail.sender.MailMetadatas;

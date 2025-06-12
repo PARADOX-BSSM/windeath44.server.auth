@@ -1,6 +1,6 @@
 package com.example.auth.domain.auth.service;
 
-import com.example.auth.domain.auth.entity.RefreshToken;
+import com.example.auth.domain.auth.model.RefreshToken;
 import com.example.auth.domain.auth.repository.RefreshTokenRepository;
 import com.example.auth.domain.auth.exception.NotFoundRefreshTokenException;
 import com.example.auth.domain.auth.dto.request.UserLoginRequest;

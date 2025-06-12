@@ -1,7 +1,7 @@
 package com.example.auth.domain.mail.repository;
 
 
-import com.example.auth.domain.mail.entity.EmailValidation;
+import com.example.auth.domain.mail.model.EmailValidation;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
