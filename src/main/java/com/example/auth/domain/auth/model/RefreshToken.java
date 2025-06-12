@@ -1,4 +1,4 @@
-package com.example.auth.domain.auth.entity;
+package com.example.auth.domain.auth.model;
 
 import lombok.Builder;
 import lombok.Getter;

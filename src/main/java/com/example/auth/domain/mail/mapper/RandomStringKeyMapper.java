@@ -1,6 +1,6 @@
 package com.example.auth.domain.mail.mapper;
 
-import com.example.auth.domain.mail.entity.RandomStringKey;
+import com.example.auth.domain.mail.model.RandomStringKey;
 import org.springframework.stereotype.Component;
 
 @Component

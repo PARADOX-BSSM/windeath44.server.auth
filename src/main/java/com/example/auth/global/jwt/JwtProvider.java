@@ -1,6 +1,6 @@
 package com.example.auth.global.jwt;
 
-import com.example.auth.domain.auth.entity.RefreshToken;
+import com.example.auth.domain.auth.model.RefreshToken;
 import com.example.auth.domain.auth.repository.RefreshTokenRepository;
 import com.example.auth.domain.auth.dto.response.TokenResponse;
 import com.example.auth.domain.gRPC.dto.response.UserCheckInfo;

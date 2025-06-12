@@ -1,6 +1,6 @@
 package com.example.auth.domain.mail.service;
 
-import com.example.auth.domain.mail.entity.RandomStringKey;
+import com.example.auth.domain.mail.model.RandomStringKey;
 import com.example.auth.domain.mail.mapper.RandomStringKeyMapper;
 import com.example.auth.domain.mail.repository.RandomStringKeyRepository;
 import com.example.auth.domain.mail.exception.NotFoundRandomStringKeyException;

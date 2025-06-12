@@ -1,4 +1,4 @@
-package com.example.auth.domain.mail.entity;
+package com.example.auth.domain.mail.model;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.annotation.Id;
