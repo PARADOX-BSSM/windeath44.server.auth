@@ -11,6 +11,8 @@ import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
 
+import java.util.Arrays;
+
 @GrpcService
 @RequiredArgsConstructor
 public class JwtParsingService extends AuthorizationGrpc.AuthorizationImplBase {
@@ -28,32 +30,44 @@ public class JwtParsingService extends AuthorizationGrpc.AuthorizationImplBase {
       UserCheckInfo user = jwtProvider.getUser(jwtToken);
       String userId = user.userId();
       String role = user.role();
-      // role은 현재 아무런 역할도 안하고있지만 나중에 권한 처리를 할 수 있음.
 
       // userId가 Null
       if (ifNull(userId == null, "Invalid JWT token", responseObserver)) return;
       // 성공적으로 반환
-      HeaderValueOption userIdHeader = HeaderValueOption.newBuilder()
-              .setHeader(HeaderValue.newBuilder()
-                      .setKey("user-id")
-                      .setValue(userId)
-                      .build())
-              .build();
+      HeaderValueOption userIdHeader = getHeaderValueOption("user-id", userId);
+      HeaderValueOption roleHeader = getHeaderValueOption("role", role);
 
-      OkHttpResponse okResponse = OkHttpResponse.newBuilder()
-              .addHeaders(userIdHeader)
-              .build();
+      OkHttpResponse okResponse = getOkResponse(userIdHeader, roleHeader);
 
-      CheckResponse response = CheckResponse.newBuilder()
-              .setOkResponse(okResponse)
-              .setStatus(com.google.rpc.Status.newBuilder().setCode(0).setMessage("OK").build())
-              .build();
+      CheckResponse response = getCheckResponse(okResponse);
 
       responseObserver.onNext(response);
       responseObserver.onCompleted();
     } catch (Exception e) {
       responseObserver.onError(new StatusException(Status.INTERNAL.withDescription(e.getMessage())));
     }
+  }
+
+  private HeaderValueOption getHeaderValueOption(String key, String value) {
+    return HeaderValueOption.newBuilder()
+            .setHeader(HeaderValue.newBuilder()
+                    .setKey(key)
+                    .setValue(value)
+                    .build())
+            .build();
+  }
+
+  private CheckResponse getCheckResponse(OkHttpResponse okResponse) {
+    return CheckResponse.newBuilder()
+            .setOkResponse(okResponse)
+            .setStatus(com.google.rpc.Status.newBuilder().setCode(0).setMessage("OK").build())
+            .build();
+  }
+
+  private OkHttpResponse getOkResponse(HeaderValueOption... headers) {
+    return OkHttpResponse.newBuilder()
+            .addAllHeaders(Arrays.asList(headers))
+            .build();
   }
 
   private boolean ifNull(boolean jwtToken, String Missing_JWT_token, StreamObserver<CheckResponse> responseObserver) {
