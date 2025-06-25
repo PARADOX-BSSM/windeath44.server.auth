@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/valid/email")
+@RequestMapping("/email")
 public class EmailValidationController {
   private final MailFacade mailFacade;
   private final EmailValidationService emailValidationService;
@@ -28,7 +28,7 @@ public class EmailValidationController {
     return ResponseEntity.ok(responseDto);
   }
 
-  @PatchMapping("/valid}")
+  @PatchMapping("/valid")
   public ResponseEntity<ResponseDto<Void>> verifyEmailCode(@RequestBody @Valid ValidationCodeRequest validationCodeRequest) {
     emailValidationService.verifyEmail(validationCodeRequest.authorizationCode());
     ResponseDto<Void> responseDto = responseDtoMapper.toResponseDto("verify email code", null);
