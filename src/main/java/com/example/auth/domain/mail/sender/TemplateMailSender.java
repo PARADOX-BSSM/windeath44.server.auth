@@ -28,7 +28,6 @@ abstract class TemplateMailSender {
       doLogic(metadata); // abstract method
       mailSender.send(mimeMessage);
     } catch (Exception e) {
-      e.printStackTrace();
       throw EmailSendFailedException.getInstance();
     }
   }

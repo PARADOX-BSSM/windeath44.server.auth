@@ -1,5 +1,6 @@
 package com.example.auth.domain.mail.controller;
 
+import com.example.auth.domain.mail.dto.request.ValidationCodeRequest;
 import com.example.auth.domain.mail.dto.response.EmailValidationResponse;
 import com.example.auth.domain.mail.facade.MailFacade;
 import com.example.auth.domain.mail.dto.request.ValidationEmailRequest;
@@ -21,25 +22,16 @@ public class EmailValidationController {
   private final ResponseDtoMapper responseDtoMapper;
 
   @PostMapping
-  @ResponseStatus(HttpStatus.OK)
   public ResponseEntity<ResponseDto<Void>> sendEmailVerificationCode(@RequestBody @Valid ValidationEmailRequest request) {
     mailFacade.sendToAuthorizationForEmail(request.email());
     ResponseDto<Void> responseDto = responseDtoMapper.toResponseDto("send email verification code", null);
     return ResponseEntity.ok(responseDto);
   }
 
-  @GetMapping("/{email}")
-  @ResponseStatus(HttpStatus.OK)
-  public ResponseEntity<ResponseDto<Void>> verifyEmailCode(@PathVariable String email) {
-    emailValidationService.verifyEmail(email);
+  @PatchMapping("/valid")
+  public ResponseEntity<ResponseDto<Void>> verifyEmailCode(@RequestBody @Valid ValidationCodeRequest validationCodeRequest) {
+    emailValidationService.verifyEmail(validationCodeRequest.authorizationCode());
     ResponseDto<Void> responseDto = responseDtoMapper.toResponseDto("verify email code", null);
-    return ResponseEntity.ok(responseDto);
-  }
-
-  @GetMapping("/check/{email}")
-  public ResponseEntity<ResponseDto<EmailValidationResponse>> checkEmailVerification(@PathVariable("email") String email) {
-    EmailValidationResponse emailValidationResponse = emailValidationService.getEmailValidationState(email);
-    ResponseDto<EmailValidationResponse> responseDto = responseDtoMapper.toResponseDto("check email verification", emailValidationResponse);
     return ResponseEntity.ok(responseDto);
   }
 }

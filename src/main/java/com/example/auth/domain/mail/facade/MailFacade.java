@@ -23,14 +23,15 @@ public class MailFacade {
     String title = "최애의 사인 windeath44 email 인증 요청";
     String fileName = "authorizationEmail";
     String domain = mailProperties.getDomain();
-
+    String randomStringKey = RandomStringKey.makeKey(5);
     MailMetadatas mailMetadatas = new MailMetadatas();
 
     mailMetadatas
             .addData("email", email)
             .addData("title", title)
             .addData("fileName", fileName)
-            .addData("domain", domain);
+            .addData("domain", domain)
+            .addData("randomStringKey", randomStringKey);
 
     emailVerificationMailSender.send(mailMetadatas, javaMailSender);
   }

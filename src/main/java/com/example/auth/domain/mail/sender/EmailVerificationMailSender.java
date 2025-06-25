@@ -18,8 +18,8 @@ public class EmailVerificationMailSender extends TemplateMailSender {
 
   @Override
   void doLogic(MailMetadatas metadatas) {
-    String email = metadatas.getData("email");
-    emailValidationService.initEmailVerification(email);
+    String randomStringKey = metadatas.getData("randomStringKey");
+    emailValidationService.initEmailVerification(randomStringKey);
   }
 
   @Override

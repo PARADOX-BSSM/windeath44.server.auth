@@ -8,7 +8,7 @@ import org.springframework.data.redis.core.RedisHash;
 @AllArgsConstructor
 public class EmailValidation {
   @Id
-  private String email;
+  private String emailValidationKey;
   private EmailValidationState state;
 
   public void access() {

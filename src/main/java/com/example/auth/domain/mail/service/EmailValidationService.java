@@ -14,19 +14,19 @@ public class EmailValidationService {
   private final EmailValidationRepository emailValidationRepository;
   private final EmailValidationMapper emailValidationMapper;
 
-  public void initEmailVerification(String email) {
-    EmailValidation emailValidation = emailValidationMapper.createEmailValidation(email);
+  public void initEmailVerification(String randomStringKey) {
+    EmailValidation emailValidation = emailValidationMapper.createEmailValidation(randomStringKey);
     emailValidationRepository.save(emailValidation);
   }
 
-  public void verifyEmail(String email) {
-    EmailValidation emailValidation = findEmailValidationById(email);
+  public void verifyEmail(String randomStringKey) {
+    EmailValidation emailValidation = findEmailValidationById(randomStringKey);
     emailValidation.access();
     emailValidationRepository.save(emailValidation);
   }
 
-  private EmailValidation findEmailValidationById(String email) {
-    EmailValidation emailValidation  = emailValidationRepository.findById(email)
+  private EmailValidation findEmailValidationById(String randomStringKey) {
+    EmailValidation emailValidation  = emailValidationRepository.findById(randomStringKey)
             .orElseThrow(NotFoundEmailValidationException::getInstance);
     return emailValidation;
   }

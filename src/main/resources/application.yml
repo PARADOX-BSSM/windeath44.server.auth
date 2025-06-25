@@ -19,12 +19,6 @@ jwt:
   header : "Authorization"
   prefix : "Bearer "
 
-oauth:
-  google:
-    client_id : ${GOOGLE_CLIENT_ID}
-    client_pw : ${GOOGLE_CLIENT_PW}
-    redirect_url : ${GOOGLE_REDIRECT_URL}
-
 spring:
   data:
     redis:
