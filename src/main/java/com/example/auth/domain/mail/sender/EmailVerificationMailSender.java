@@ -27,9 +27,11 @@ public class EmailVerificationMailSender extends TemplateMailSender {
     String email = metadata.getData("email");
     String domain = metadata.getData("domain");
     String name = email.split("@")[0];
+    String randomStringKey = metadata.getData("randomStringKey");
 
     mailContextMaker.addProperties("email", email)
             .addProperties("domain", domain)
-            .addProperties("name", name);
+            .addProperties("name", name)
+            .addProperties("randomStringKey", randomStringKey);
   }
 }
