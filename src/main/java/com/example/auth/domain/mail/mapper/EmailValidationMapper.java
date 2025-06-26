@@ -10,7 +10,7 @@ public class EmailValidationMapper {
   public EmailValidationResponse toEmailValidationResponse(EmailValidation emailValidation) {
     return new EmailValidationResponse(emailValidation.getState());
   }
-  public EmailValidation createEmailValidation(String randomStringKey) {
-    return new EmailValidation(randomStringKey, EmailValidationState.PENDING);
+  public EmailValidation createEmailValidation(String email, String randomStringKey) {
+    return new EmailValidation(email, randomStringKey, EmailValidationState.PENDING);
   }
 }

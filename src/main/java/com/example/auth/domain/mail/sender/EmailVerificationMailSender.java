@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-
 @Component
 public class EmailVerificationMailSender extends TemplateMailSender {
   private final EmailValidationService emailValidationService;
@@ -19,7 +18,8 @@ public class EmailVerificationMailSender extends TemplateMailSender {
   @Override
   void doLogic(MailMetadatas metadatas) {
     String randomStringKey = metadatas.getData("randomStringKey");
-    emailValidationService.initEmailVerification(randomStringKey);
+    String email = metadatas.getData("email");
+    emailValidationService.initEmailVerification(randomStringKey, email);
   }
 
   @Override
