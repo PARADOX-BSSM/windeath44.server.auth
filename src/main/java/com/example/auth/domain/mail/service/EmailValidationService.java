@@ -1,5 +1,6 @@
 package com.example.auth.domain.mail.service;
 
+import com.example.auth.domain.mail.dto.request.ValidationEmailCodeRequest;
 import com.example.auth.domain.mail.model.EmailValidation;
 import com.example.auth.domain.mail.mapper.EmailValidationMapper;
 import com.example.auth.domain.mail.repository.EmailValidationRepository;
@@ -14,26 +15,23 @@ public class EmailValidationService {
   private final EmailValidationRepository emailValidationRepository;
   private final EmailValidationMapper emailValidationMapper;
 
-  public void initEmailVerification(String randomStringKey) {
-    EmailValidation emailValidation = emailValidationMapper.createEmailValidation(randomStringKey);
+  public void initEmailVerification(String randomStringKey, String email) {
+    EmailValidation emailValidation = emailValidationMapper.createEmailValidation(email, randomStringKey);
     emailValidationRepository.save(emailValidation);
   }
 
-  public void verifyEmail(String randomStringKey) {
-    EmailValidation emailValidation = findEmailValidationById(randomStringKey);
-    emailValidation.access();
+  public void verifyEmail(ValidationEmailCodeRequest validationEmailCodeRequest) {
+    String randomStringKey = validationEmailCodeRequest.authorizationCode();
+    String email = validationEmailCodeRequest.email();
+
+    EmailValidation emailValidation = findEmailValidationById(email);
+    emailValidation.verify(randomStringKey);
     emailValidationRepository.save(emailValidation);
   }
 
-  private EmailValidation findEmailValidationById(String randomStringKey) {
-    EmailValidation emailValidation  = emailValidationRepository.findById(randomStringKey)
+  private EmailValidation findEmailValidationById(String email) {
+    EmailValidation emailValidation  = emailValidationRepository.findById(email)
             .orElseThrow(NotFoundEmailValidationException::getInstance);
     return emailValidation;
-  }
-
-  public EmailValidationResponse getEmailValidationState(String email) {
-    EmailValidation emailValidation = findEmailValidationById(email);
-    EmailValidationResponse emailValidationResponse = emailValidationMapper.toEmailValidationResponse(emailValidation);
-    return emailValidationResponse;
   }
 }

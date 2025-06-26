@@ -1,6 +1,7 @@
 package com.example.auth.domain.mail.controller;
 
 import com.example.auth.domain.mail.dto.request.ValidationCodeRequest;
+import com.example.auth.domain.mail.dto.request.ValidationEmailCodeRequest;
 import com.example.auth.domain.mail.dto.response.EmailValidationResponse;
 import com.example.auth.domain.mail.facade.MailFacade;
 import com.example.auth.domain.mail.dto.request.ValidationEmailRequest;
@@ -29,8 +30,8 @@ public class EmailValidationController {
   }
 
   @PatchMapping("/valid")
-  public ResponseEntity<ResponseDto<Void>> verifyEmailCode(@RequestBody @Valid ValidationCodeRequest validationCodeRequest) {
-    emailValidationService.verifyEmail(validationCodeRequest.authorizationCode());
+  public ResponseEntity<ResponseDto<Void>> verifyEmailCode(@RequestBody @Valid ValidationEmailCodeRequest validationCodeRequest) {
+    emailValidationService.verifyEmail(validationCodeRequest);
     ResponseDto<Void> responseDto = responseDtoMapper.toResponseDto("verify email code", null);
     return ResponseEntity.ok(responseDto);
   }

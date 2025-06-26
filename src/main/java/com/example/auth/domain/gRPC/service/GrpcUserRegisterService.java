@@ -40,7 +40,7 @@ public class GrpcUserRegisterService extends UserRegisterServiceGrpc.UserRegiste
   private EmailValidation getEmailValidation(String email) {
     return emailValidationRepository.findById(email)
             .orElseThrow(() -> Status.NOT_FOUND
-                            .withDescription("Email has already been used.")
+                            .withDescription("not found email in redis")
                     .asRuntimeException());
   }
 }

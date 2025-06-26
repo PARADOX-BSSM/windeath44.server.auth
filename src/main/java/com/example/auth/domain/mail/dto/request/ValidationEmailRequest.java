@@ -7,6 +7,5 @@ public record ValidationEmailRequest (
         @Email
         @NotNull(message="email is null")
         String email
-
 ){
 }
