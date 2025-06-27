@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/email")
+@RequestMapping("/auth/email")
 public class EmailValidationController {
   private final MailFacade mailFacade;
   private final EmailValidationService emailValidationService;

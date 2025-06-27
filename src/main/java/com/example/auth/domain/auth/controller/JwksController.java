@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("/auth")
 public class JwksController {
 
   private final KeyPair keyPair;

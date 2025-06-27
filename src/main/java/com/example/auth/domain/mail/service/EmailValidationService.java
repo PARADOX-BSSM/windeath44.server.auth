@@ -6,6 +6,7 @@ import com.example.auth.domain.mail.mapper.EmailValidationMapper;
 import com.example.auth.domain.mail.repository.EmailValidationRepository;
 import com.example.auth.domain.mail.dto.response.EmailValidationResponse;
 import com.example.auth.domain.mail.exception.NotFoundEmailValidationException;
+import groovy.util.logging.Slf4j;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
