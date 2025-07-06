@@ -4,7 +4,7 @@ import com.example.auth.domain.mail.model.RandomStringKey;
 import com.example.auth.global.config.properties.MailProperties;
 import com.example.auth.domain.mail.sender.EmailVerificationMailSender;
 import com.example.auth.domain.mail.sender.MailMetadatas;
-import com.example.auth.domain.mail.sender.RandomStringKeyMailSender;
+import com.example.auth.domain.mail.sender.PasswordValidationMailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MailFacade {
   private final EmailVerificationMailSender emailVerificationMailSender;
-  private final RandomStringKeyMailSender randomStringKeyMailSender;
+  private final PasswordValidationMailSender passwordValidationMailSender;
 
   private final JavaMailSender javaMailSender;
   private final MailProperties mailProperties;
@@ -48,7 +48,7 @@ public class MailFacade {
             .addData("fileName", fileName)
             .addData("randomStringKey", randomStringKey);
 
-    randomStringKeyMailSender.send(mailMetadatas,  javaMailSender);
+    passwordValidationMailSender.send(mailMetadatas,  javaMailSender);
   }
 
 }
