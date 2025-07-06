@@ -34,6 +34,7 @@ public class JwtParsingService extends AuthorizationGrpc.AuthorizationImplBase {
       // userId가 Null
       if (ifNull(userId == null, "Invalid JWT token", responseObserver)) return;
       // 성공적으로 반환
+
       HeaderValueOption userIdHeader = getHeaderValueOption("user-id", userId);
       HeaderValueOption roleHeader = getHeaderValueOption("role", role);
 

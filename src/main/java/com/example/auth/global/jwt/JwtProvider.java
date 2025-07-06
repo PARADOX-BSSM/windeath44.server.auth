@@ -50,6 +50,7 @@ public class JwtProvider {
             .setHeaderParam("type", type)
             .setSubject(userId)
             .claim("role", role)
+            .setIssuer("windeath44")
             .setIssuedAt(now)
             .setExpiration(new Date(now.getTime() + time))
             .setIssuer("windeath44-auth")

@@ -17,7 +17,7 @@ public class EmailValidation {
     this.state = EmailValidationState.ACCESS;
   }
 
-  public void ValidateEmail() {
+  public void validateEmail() {
     this.state.isAccess();
   }
 

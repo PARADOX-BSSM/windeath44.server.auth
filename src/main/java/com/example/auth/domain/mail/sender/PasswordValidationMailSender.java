@@ -7,17 +7,17 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 
 @Component
-public class RandomStringKeyMailSender extends TemplateMailSender {
+public class PasswordValidationMailSender extends TemplateMailSender {
   private final PasswordValidationService passwordValidationService;
 
   @Autowired
-  public RandomStringKeyMailSender(SpringTemplateEngine templateEngine, PasswordValidationService passwordValidationService) {
+  public PasswordValidationMailSender(SpringTemplateEngine templateEngine, PasswordValidationService passwordValidationService) {
     super(templateEngine);
     this.passwordValidationService = passwordValidationService;
   }
 
   @Override
-  void doLogic(MailMetadatas metadatas) {
+  void initializeEmailVerification(MailMetadatas metadatas) {
     String randomStringKey = metadatas.getData("randomStringKey");
     String email = metadatas.getData("email");
     passwordValidationService.initRandomStringKey(randomStringKey, email);

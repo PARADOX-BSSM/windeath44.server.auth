@@ -29,7 +29,6 @@ spring:
 mail:
   host: smtp.gmail.com
   port: 587
-  domain : http://localhost:4444
   username: ${MAIL_USERNAME}
   password: ${MAIL_PASSWORD}
   smtp:

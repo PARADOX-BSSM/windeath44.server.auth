@@ -25,7 +25,7 @@ public class GrpcUserRegisterService extends UserRegisterServiceGrpc.UserRegiste
     try {
       String email = request.getEmail();
       EmailValidation emailValidation = getEmailValidation(email);
-      emailValidation.ValidateEmail();
+      emailValidation.validateEmail();
       UserRegisterResponse userRegisterResponse = UserRegisterResponse.newBuilder()
               .build();
       responseObserver.onNext(userRegisterResponse);

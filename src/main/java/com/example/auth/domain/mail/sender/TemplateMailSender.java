@@ -26,7 +26,7 @@ abstract class TemplateMailSender {
       MimeMessage mimeMessage = mailSender.createMimeMessage();
       settingMessage(mimeMessage, metadata);
       // custom logic
-      doLogic(metadata); // abstract method
+      initializeEmailVerification(metadata); // abstract method
       mailSender.send(mimeMessage);
     } catch (Exception e) {
       log.error(e.getMessage(), e);
@@ -34,7 +34,7 @@ abstract class TemplateMailSender {
     }
   }
 
-  abstract void doLogic(MailMetadatas metadatas);
+  abstract void initializeEmailVerification(MailMetadatas metadatas);
 
   private void settingMessage(MimeMessage mimeMessage, MailMetadatas metadata) throws MessagingException, IOException {
     MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");

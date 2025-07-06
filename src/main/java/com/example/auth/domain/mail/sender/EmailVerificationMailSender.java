@@ -16,7 +16,7 @@ public class EmailVerificationMailSender extends TemplateMailSender {
   }
 
   @Override
-  void doLogic(MailMetadatas metadatas) {
+  void initializeEmailVerification(MailMetadatas metadatas) {
     String randomStringKey = metadatas.getData("randomStringKey");
     String email = metadatas.getData("email");
     emailValidationService.initEmailVerification(randomStringKey, email);
