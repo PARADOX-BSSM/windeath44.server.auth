@@ -9,7 +9,6 @@ import java.util.Map;
 class MailContextMaker {
   private final Map<String, Object> properties = new HashMap<>();
 
-
   public MailContextMaker addProperties(String key, Object value) {
     properties.put(key, value);
     return this;

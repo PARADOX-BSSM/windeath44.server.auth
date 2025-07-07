@@ -3,7 +3,6 @@ package com.example.auth.domain.mail.sender;
 import com.example.auth.domain.mail.exception.EmailSendFailedException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -26,14 +25,14 @@ abstract class TemplateMailSender {
       MimeMessage mimeMessage = mailSender.createMimeMessage();
       settingMessage(mimeMessage, metadata);
       // custom logic
-      initializeEmailVerification(metadata); // abstract method
+      initializeVerification(metadata); // abstract method
       mailSender.send(mimeMessage);
     } catch (Exception e) {
       throw EmailSendFailedException.getInstance();
     }
   }
 
-  abstract void initializeEmailVerification(MailMetadatas metadatas);
+  abstract void initializeVerification(MailMetadatas metadatas);
 
   private void settingMessage(MimeMessage mimeMessage, MailMetadatas metadata) throws MessagingException, IOException {
     MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");

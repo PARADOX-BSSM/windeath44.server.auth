@@ -17,10 +17,10 @@ public class PasswordValidationMailSender extends TemplateMailSender {
   }
 
   @Override
-  void initializeEmailVerification(MailMetadatas metadatas) {
+  void initializeVerification(MailMetadatas metadatas) {
     String randomStringKey = metadatas.getData("randomStringKey");
     String email = metadatas.getData("email");
-    passwordValidationService.initRandomStringKey(randomStringKey, email);
+    passwordValidationService.init(randomStringKey, email);
   }
 
   @Override
