@@ -53,7 +53,6 @@ public class JwtProvider {
             .setIssuer("windeath44")
             .setIssuedAt(now)
             .setExpiration(new Date(now.getTime() + time))
-            .setIssuer("windeath44-auth")
             .compact();
   }
 

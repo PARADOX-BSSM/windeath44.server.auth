@@ -40,7 +40,7 @@ public class PasswordValidationServiceTest {
         given(randomStringKeyMapper.createRandomStringKey(randomStringKey, email)).willReturn(randomStringKeyEntity);
         
         // When
-        passwordValidationService.initRandomStringKey(randomStringKey, email);
+        passwordValidationService.init(randomStringKey, email);
         
         // Then
         then(randomStringKeyMapper).should().createRandomStringKey(randomStringKey, email);

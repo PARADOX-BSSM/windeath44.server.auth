@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class PasswordValidationService {
+public class PasswordValidationService implements ValidationService {
   private final RandomStringKeyRepository randomStringKeyRepository;
   private final RandomStringKeyMapper randomStringKeyMapper;
 
-  public void initRandomStringKey(String randomStringKey, String email) {
+  public void init(String randomStringKey, String email) {
     RandomStringKey randomStringKeyEntity = randomStringKeyMapper.createRandomStringKey(randomStringKey, email);
     randomStringKeyRepository.save(randomStringKeyEntity);
   }

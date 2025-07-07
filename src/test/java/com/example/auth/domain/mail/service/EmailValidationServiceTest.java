@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -44,7 +43,7 @@ public class EmailValidationServiceTest {
         given(emailValidationMapper.createEmailValidation(email)).willReturn(emailValidation);
 
         // When
-        emailValidationService.initEmailVerification(email);
+        emailValidationService.init(email);
 
         // Then
         then(emailValidationMapper).should().createEmailValidation(email);
