@@ -2,8 +2,7 @@ package com.example.auth.domain.auth.controller;
 
 import com.example.auth.domain.auth.dto.request.UserLoginRequest;
 import com.example.auth.domain.auth.dto.response.TokenResponse;
-import com.example.auth.global.mapper.ResponseDtoMapper;
-import com.example.auth.global.mapper.dto.ResponseDto;
+import com.example.auth.global.dto.ResponseDto;
 import com.example.auth.global.util.HttpUtil;
 import com.example.auth.domain.auth.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,13 +19,12 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
   private final AuthService authService;
   private final HttpUtil httpUtil;
-  private final ResponseDtoMapper responseDtoMapper;
 
   @PostMapping("/login")
   public ResponseEntity<ResponseDto<Void>> login(@RequestBody @Valid UserLoginRequest request) {
     TokenResponse tokenResponse = authService.login(request);
     HttpHeaders httpHeaders = httpUtil.makeToken(tokenResponse);
-    ResponseDto<Void> responseDto = responseDtoMapper.toResponseDto("login", null);
+    ResponseDto<Void> responseDto = HttpUtil.success("login");
     return ResponseEntity
             .status(HttpStatus.ACCEPTED)
             .headers(httpHeaders)
@@ -38,7 +36,7 @@ public class AuthController {
     String refreshToken = httpUtil.parseCookie("refreshToken", request.getCookies());
     TokenResponse tokenResponse = authService.reissue(refreshToken);
     HttpHeaders httpHeaders = httpUtil.makeToken(tokenResponse);
-    ResponseDto<Void> responseDto = responseDtoMapper.toResponseDto("access token reissue", null);
+    ResponseDto<Void> responseDto = HttpUtil.success("access token reissue");
     return ResponseEntity
             .status(HttpStatus.ACCEPTED)
             .headers(httpHeaders)
@@ -49,12 +47,7 @@ public class AuthController {
   public ResponseEntity<ResponseDto<Void>> logout(HttpServletRequest request) {
     String refreshToken = httpUtil.parseCookie("refreshToken", request.getCookies());
     authService.logout(refreshToken);
-    ResponseDto<Void> responseDto = responseDtoMapper.toResponseDto("logout", null);
+    ResponseDto<Void> responseDto = HttpUtil.success("logout");
     return ResponseEntity.ok(responseDto);
   }
-
-
-
-
-
 }
