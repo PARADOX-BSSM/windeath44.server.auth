@@ -1,0 +1,30 @@
+package com.example.auth.global.aspect;
+
+import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
+
+@Aspect
+@Component
+@Slf4j
+public class LoggingAspect {
+    @Pointcut("execution(* com.example.auth.domain.auth.service.*.*(..))")
+    public void authServiceMethodLogging() {}
+
+    @Pointcut("execution(* com.example.auth.domain.mail.service.*.*(..))")
+    public void mailServiceMethodLogging() {}
+
+    @Pointcut("execution(* com.example.auth.domain.gRPC.service.*.*(..))")
+    public void grpcServiceMethodLogging() {}
+
+    @Around("authServiceMethodLogging() && mailServiceMethodLogging() && grpcServiceMethodLogging()")
+    public Object logServiceMethodLogging(ProceedingJoinPoint joinPoint) throws Throwable {
+        log.trace("Entering {}", joinPoint.getSignature().getName());
+        Object result = joinPoint.proceed();
+        log.trace("Exiting {}", joinPoint.getSignature().getName());
+        return result;
+    }
+}

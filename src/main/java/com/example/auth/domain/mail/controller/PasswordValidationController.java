@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/password")
+@RequestMapping("/auth/password")
 public class PasswordValidationController {
   private final MailFacade mailFacade;
   private final PasswordValidationService passwordValidationService;
@@ -34,6 +34,7 @@ public class PasswordValidationController {
     passwordValidationService.verifyCode(request.authorizationCode());
     ResponseDto<Void> responseDto = responseDtoMapper.toResponseDto("success verify", null);
     return ResponseEntity.ok(responseDto);
+
   }
 
 }
