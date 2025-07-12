@@ -37,4 +37,4 @@ mail:
       enable: true
 logging:
   level:
-    root: trace
+    com.example.auth: trace
