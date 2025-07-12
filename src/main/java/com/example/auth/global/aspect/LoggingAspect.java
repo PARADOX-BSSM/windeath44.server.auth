@@ -21,7 +21,7 @@ public class LoggingAspect {
     public void grpcServiceMethodLogging() {}
 
     @Around("authServiceMethodLogging() && mailServiceMethodLogging() && grpcServiceMethodLogging()")
-    public Object logServiceMethodLogging(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object serviceMethodLogging(ProceedingJoinPoint joinPoint) throws Throwable {
         log.trace("Entering {}", joinPoint.getSignature().getName());
         Object result = joinPoint.proceed();
         log.trace("Exiting {}", joinPoint.getSignature().getName());
