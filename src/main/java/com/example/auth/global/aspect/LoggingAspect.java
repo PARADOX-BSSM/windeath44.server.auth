@@ -24,7 +24,7 @@ public class LoggingAspect {
     @Pointcut("execution(* com.example.auth.domain.gRPC.service.*.*(..))")
     public void grpcServiceMethodLogging() {}
 
-    @Around("authServiceMethodLogging() && mailServiceMethodLogging() && grpcServiceMethodLogging()")
+    @Around("authServiceMethodLogging() || mailServiceMethodLogging() || grpcServiceMethodLogging()")
     public Object serviceMethodLogging(ProceedingJoinPoint joinPoint) throws Throwable {
         log.debug("Entering {} by {}", joinPoint.getSignature().getName(), counter.get());
         Object result = joinPoint.proceed();
