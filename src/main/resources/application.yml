@@ -35,4 +35,6 @@ mail:
     timeout: 5000
     starttls:
       enable: true
-
+logging:
+  level:
+    root: trace
