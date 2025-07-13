@@ -5,6 +5,7 @@ import com.example.auth.domain.auth.dto.response.TokenResponse;
 import com.example.auth.global.dto.ResponseDto;
 import com.example.auth.global.util.HttpUtil;
 import com.example.auth.domain.auth.service.AuthService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +33,8 @@ public class AuthController {
   }
 
   @PostMapping("/reissue")
-  public ResponseEntity<ResponseDto<Void>> reissue(HttpServletRequest request) {
-    String refreshToken = httpUtil.parseCookie("refreshToken", request.getCookies());
+  public ResponseEntity<ResponseDto<Void>> reissue(@CookieValue("refreshToken") Cookie refreshTokenCookie, HttpServletRequest request) {
+    String refreshToken = refreshTokenCookie.toString();
     TokenResponse tokenResponse = authService.reissue(refreshToken);
     HttpHeaders httpHeaders = httpUtil.makeToken(tokenResponse);
     ResponseDto<Void> responseDto = HttpUtil.success("access token reissue");
@@ -44,8 +45,8 @@ public class AuthController {
   }
 
   @PostMapping("/logout")
-  public ResponseEntity<ResponseDto<Void>> logout(HttpServletRequest request) {
-    String refreshToken = httpUtil.parseCookie("refreshToken", request.getCookies());
+  public ResponseEntity<ResponseDto<Void>> logout(@CookieValue("refreshToken") Cookie refreshTokenCookie, HttpServletRequest request) {
+    String refreshToken = refreshTokenCookie.toString();
     authService.logout(refreshToken);
     ResponseDto<Void> responseDto = HttpUtil.success("logout");
     return ResponseEntity.ok(responseDto);

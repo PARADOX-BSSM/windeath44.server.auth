@@ -24,15 +24,6 @@ public class HttpUtil {
             .build();
   }
 
-  public String parseCookie(String key, Cookie[] cookies) {
-    for (Cookie cookie : cookies) {
-      if (cookie.getName().equals(key)) {
-        return cookie.getValue();
-      }
-    }
-    return null;
-  }
-
   public static <T> ResponseDto<T> success(String message, T data) {
     return new ResponseDto<>(message, data);
   }
