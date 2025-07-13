@@ -1,7 +1,8 @@
-package com.example.auth.global.mapper.dto;
+package com.example.auth.global.dto;
 
 public record ResponseDto<T> (
         String message,
         T data
 ) {
+
 }

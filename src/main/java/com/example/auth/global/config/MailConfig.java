@@ -12,7 +12,6 @@ import java.util.Properties;
 @Configuration
 @RequiredArgsConstructor
 public class MailConfig {
-
   private final MailProperties mailProperties;
 
   @Bean
