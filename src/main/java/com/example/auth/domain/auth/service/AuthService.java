@@ -16,16 +16,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class AuthService {
   private final GrpcClientService grpcClientService;
   private final JwtProvider jwtProvider;
   private final RefreshTokenRepository refreshTokenRepository;
 
   public TokenResponse login(UserLoginRequest request) {
-    log.warn("a");
     UserCheckInfo userCheckInfo = grpcClientService.checkUser(request.userId(), request.password());
-    log.error("a");
     String userId = userCheckInfo.userId();
     String role = userCheckInfo.role();
     TokenResponse tokenResponse = jwtProvider.getTokenResponse(userId, role);

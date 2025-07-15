@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 
 @Configuration
 public class RsaKeyConfig {
+
   @Bean
   public KeyPair keyPair() {
     try {
