@@ -1,0 +1,21 @@
+
+                                                                                  dddddddd
+PPPPPPPPPPPPPPPPP                                                                 d::::::d
+P::::::::::::::::P                                                                d::::::d
+P::::::PPPPPP:::::P                                                               d::::::d
+PP:::::P     P:::::P                                                              d:::::d
+  P::::P     P:::::Paaaaaaaaaaaaa  rrrrr   rrrrrrrrr   aaaaaaaaaaaaa      ddddddddd:::::d    ooooooooooo xxxxxxx      xxxxxxx
+  P::::P     P:::::Pa::::::::::::a r::::rrr:::::::::r  a::::::::::::a   dd::::::::::::::d  oo:::::::::::oox:::::x    x:::::x
+  P::::PPPPPP:::::P aaaaaaaaa:::::ar:::::::::::::::::r aaaaaaaaa:::::a d::::::::::::::::d o:::::::::::::::ox:::::x  x:::::x
+  P:::::::::::::PP           a::::arr::::::rrrrr::::::r         a::::ad:::::::ddddd:::::d o:::::ooooo:::::o x:::::xx:::::x
+  P::::PPPPPPPPP      aaaaaaa:::::a r:::::r     r:::::r  aaaaaaa:::::ad::::::d    d:::::d o::::o     o::::o  x::::::::::x
+  P::::P            aa::::::::::::a r:::::r     rrrrrrraa::::::::::::ad:::::d     d:::::d o::::o     o::::o   x::::::::x
+  P::::P           a::::aaaa::::::a r:::::r           a::::aaaa::::::ad:::::d     d:::::d o::::o     o::::o   x::::::::x
+  P::::P          a::::a    a:::::a r:::::r          a::::a    a:::::ad:::::d     d:::::d o::::o     o::::o  x::::::::::x
+PP::::::PP        a::::a    a:::::a r:::::r          a::::a    a:::::ad::::::ddddd::::::ddo:::::ooooo:::::o x:::::xx:::::x
+P::::::::P        a:::::aaaa::::::a r:::::r          a:::::aaaa::::::a d:::::::::::::::::do:::::::::::::::ox:::::x  x:::::x
+P::::::::P         a::::::::::aa:::ar:::::r           a::::::::::aa:::a d:::::::::ddd::::d oo:::::::::::oox:::::x    x:::::x
+PPPPPPPPPP          aaaaaaaaaa  aaaarrrrrrr            aaaaaaaaaa  aaaa  ddddddddd   ddddd   ooooooooooo xxxxxxx      xxxxxxx
+
+------------------------------------------------ ${spring-boot.version} ------------------------------------------------------
+                                                    Welcome paradox
