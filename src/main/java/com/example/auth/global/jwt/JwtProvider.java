@@ -57,11 +57,16 @@ public class JwtProvider {
   }
 
   public String getJwt(Map<String, String> headersMap) {
-    String bearerToken = headersMap.get(jwtProperties.getHeader().toLowerCase());
-    String bearer = jwtProperties.getPrefix();
-    if (bearerToken.startsWith(bearer)) {
-      String token = bearerToken.substring(bearer.length());
-      return token;
+    try {
+      String bearerToken = headersMap.get(jwtProperties.getHeader().toLowerCase());
+      String bearer = jwtProperties.getPrefix();
+      if (bearerToken.startsWith(bearer)) {
+        String token = bearerToken.substring(bearer.length());
+        return token;
+      }
+    }
+    catch (Exception e) {
+      return null;
     }
     return null;
   }
