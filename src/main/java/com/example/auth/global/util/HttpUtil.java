@@ -16,7 +16,7 @@ public class HttpUtil {
     httpHeaders.add(HttpHeaders.SET_COOKIE, createCookie("refreshToken", tokenResponse.refreshToken()).toString());
     return httpHeaders;
   }
-
+  
   private ResponseCookie createCookie(String key, String value) {
     return ResponseCookie.from(key, value)
             .httpOnly(true)
