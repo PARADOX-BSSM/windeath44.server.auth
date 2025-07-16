@@ -22,8 +22,9 @@ jwt:
 spring:
   data:
     redis:
-      host: localhost
+      host: ${REDIS_HOST}
       port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
 
 mail:
   host: smtp.gmail.com
