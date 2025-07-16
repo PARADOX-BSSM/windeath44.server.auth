@@ -24,27 +24,35 @@ public class JwtParsingService extends AuthorizationGrpc.AuthorizationImplBase {
       jwtToken = jwtProvider.getJwt(attributes.getRequest().getHttp().getHeadersMap());
     } catch (Exception e) {
       e.printStackTrace();  // 로그만 찍고 무시
+      CheckResponse response = getDefaultResponse();
+      responseObserver.onNext(response);
+      responseObserver.onCompleted();
       // jwtToken 그대로 null
     }
     if (ifNull(jwtToken == null || jwtToken.isEmpty(), responseObserver)) return;
     // 유저 정보 추출
-    UserCheckInfo user = jwtProvider.getUser(jwtToken);
-    String userId = user.userId();
-    String role = user.role();
+    try {
+      UserCheckInfo user = jwtProvider.getUser(jwtToken);
+      String userId = user.userId();
+      String role = user.role();
+      if (ifNull(userId == null, responseObserver)) return;
+      // 성공적으로 반환
 
-    // userId가 Null
-    if (ifNull(userId == null, responseObserver)) return;
-    // 성공적으로 반환
+      HeaderValueOption userIdHeader = getHeaderValueOption("user-id", userId);
+      HeaderValueOption roleHeader = getHeaderValueOption("role", role);
 
-    HeaderValueOption userIdHeader = getHeaderValueOption("user-id", userId);
-    HeaderValueOption roleHeader = getHeaderValueOption("role", role);
+      OkHttpResponse okResponse = getOkResponse(userIdHeader, roleHeader);
 
-    OkHttpResponse okResponse = getOkResponse(userIdHeader, roleHeader);
+      CheckResponse response = getCheckResponse(okResponse);
 
-    CheckResponse response = getCheckResponse(okResponse);
-
-    responseObserver.onNext(response);
-    responseObserver.onCompleted();
+      responseObserver.onNext(response);
+      responseObserver.onCompleted();
+    } catch (Exception e) {
+      e.printStackTrace();
+      CheckResponse response = getDefaultResponse();
+      responseObserver.onNext(response);
+      responseObserver.onCompleted();
+    }
   }
 
   private HeaderValueOption getHeaderValueOption(String key, String value) {
