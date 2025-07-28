@@ -2,25 +2,21 @@
 FROM --platform=linux/arm64 gradle:8.4-jdk17 AS build
 WORKDIR /app
 
-# Gradle 캐시 최적화를 위해 의존성 먼저 복사
-COPY build.gradle settings.gradle ./
+# Gradle 캐시 최적화를 위해 Wrapper 포함한 파일 먼저 복사
+COPY gradlew build.gradle settings.gradle ./
 COPY gradle gradle
-RUN gradle dependencies --no-daemon || true
+RUN chmod +x gradlew
+RUN ./gradlew dependencies --no-daemon || true
 
 # 애플리케이션 전체 복사 및 빌드
 COPY . .
-RUN gradle bootJar --no-daemon
+RUN ./gradlew bootJar --no-daemon
 
-# 2단계: 런타임 스테이지 (경량 JDK 환경에서 애플리케이션 실행)
+# 2단계: 런타임 스테이지
 FROM --platform=linux/arm64 openjdk:17-jdk
-
 WORKDIR /app
 
-# 빌드한 JAR 파일 복사
 COPY --from=build /app/build/libs/*.jar app.jar
 
-# 컨테이너에서 열 포트 설정 (4444 포트)
 EXPOSE 4444
-
-# 애플리케이션 실행
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
