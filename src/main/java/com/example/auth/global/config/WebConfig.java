@@ -13,7 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
             .allowedOriginPatterns("http://10.129.59.65:5173", "https://10.129.59.65:5173" ,"http://localhost:5173")
             .allowedMethods("*")
             .allowedHeaders("*")
-            .exposedHeaders("accessToken", "set-cookie");
+            .exposedHeaders("accessToken", "set-cookie")
             .allowCredentials(true);
   }
 }
