@@ -1,7 +1,7 @@
 package com.example.auth.domain.gRPC.service;
 
-import com.example.auth.domain.mail.domain.EmailValidation;
-import com.example.auth.domain.mail.domain.repository.EmailValidationRepository;
+import com.example.auth.domain.mail.model.EmailValidation;
+import com.example.auth.domain.mail.repository.EmailValidationRepository;
 import com.example.grpc.UserRegisterRequest;
 import com.example.grpc.UserRegisterResponse;
 import com.example.grpc.UserRegisterServiceGrpc;
@@ -25,7 +25,7 @@ public class GrpcUserRegisterService extends UserRegisterServiceGrpc.UserRegiste
     try {
       String email = request.getEmail();
       EmailValidation emailValidation = getEmailValidation(email);
-      emailValidation.ValidateEmail();
+      emailValidation.validateEmail();
       UserRegisterResponse userRegisterResponse = UserRegisterResponse.newBuilder()
               .build();
       responseObserver.onNext(userRegisterResponse);
@@ -40,7 +40,7 @@ public class GrpcUserRegisterService extends UserRegisterServiceGrpc.UserRegiste
   private EmailValidation getEmailValidation(String email) {
     return emailValidationRepository.findById(email)
             .orElseThrow(() -> Status.NOT_FOUND
-                            .withDescription("Email has already been used.")
+                            .withDescription("not found email in redis")
                     .asRuntimeException());
   }
 }

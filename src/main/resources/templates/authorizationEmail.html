@@ -177,18 +177,9 @@
                                     <h1 style="color: #FF8EF6; font-size: 32px; text-align: center;" th:text="${name}">ꤼꥆꤴꤺꤰꤵꤼꥆꤲꤺꤰꥀ</h1>
                                     <p style="font-size: 16px; color : white">새로운 기기로 로그인하시려는 것 같습니다. 계정에 접근하려면 <strong>Windeath44 코드</strong>가 필요합니다.</p>
                                     <div style="text-align: center; margin: 20px 0;">
-                                        <a th:href="|${domain}/valid/email/${email}|"
-                                        style="display: inline-block;
-              background-color: #FF8EF6;
-              color: white;
-              padding: 14px 28px;
-              text-decoration: none;
-              font-size: 20px;
-              font-family: DOSIyagiBoldface, sans-serif;
-              border-radius: 6px;
-              box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                                            인증 승인하기
-                                        </a>
+                                        <div style="margin: 20px auto; background-color: white; width: 80%; height: 60px; text-align: center;">
+                                            <h1 style="color: black; font-size: 38px; margin: 0; line-height: 60px;" th:text="${randomStringKey}">ERROR</h1>
+                                        </div>
                                     </div>
 
                                     <hr style="border: 1px solid #ff8ef6;" />

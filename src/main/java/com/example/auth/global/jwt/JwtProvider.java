@@ -1,9 +1,11 @@
 package com.example.auth.global.jwt;
 
-import com.example.auth.domain.auth.domain.RefreshToken;
-import com.example.auth.domain.auth.domain.repository.RefreshTokenRepository;
-import com.example.auth.domain.auth.presentation.dto.response.TokenResponse;
+import com.example.auth.domain.auth.model.RefreshToken;
+import com.example.auth.domain.auth.repository.RefreshTokenRepository;
+import com.example.auth.domain.auth.dto.response.TokenResponse;
+import com.example.auth.domain.gRPC.dto.response.UserCheckInfo;
 import com.example.auth.global.config.properties.JwtProperties;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.security.KeyPair;
 import java.util.Date;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -47,9 +50,43 @@ public class JwtProvider {
             .setHeaderParam("type", type)
             .setSubject(userId)
             .claim("role", role)
+            .setIssuer("windeath44")
             .setIssuedAt(now)
             .setExpiration(new Date(now.getTime() + time))
-            .setIssuer("windeath44-auth")
             .compact();
+  }
+
+  public String getJwt(Map<String, String> headersMap) {
+    try {
+      String bearerToken = headersMap.get(jwtProperties.getHeader().toLowerCase());
+      String bearer = jwtProperties.getPrefix();
+      if (bearerToken.startsWith(bearer)) {
+        String token = bearerToken.substring(bearer.length());
+        return token;
+      }
+    }
+    catch (Exception e) {
+      return null;
+    }
+    return null;
+  }
+
+  public UserCheckInfo getUser(String token) {
+    Claims claims = getClaims(token);
+    String userId = claims.getSubject();
+    String role = claims.get("role", String.class);
+    UserCheckInfo user = UserCheckInfo.create(userId, role);
+    return user;
+  }
+
+  private Claims getClaims(String token) {
+    Claims claims = parse(token);
+    return claims;
+  }
+  private Claims parse(String token) {
+      return Jwts.parserBuilder().setSigningKey(keyPair.getPublic())
+              .build()
+              .parseClaimsJws(token)
+              .getBody();
   }
 }

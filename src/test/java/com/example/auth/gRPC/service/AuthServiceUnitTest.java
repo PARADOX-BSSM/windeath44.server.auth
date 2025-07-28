@@ -1,8 +1,7 @@
 package com.example.auth.gRPC.service;
 
-import com.example.auth.domain.auth.domain.RefreshToken;
-import com.example.auth.domain.auth.domain.repository.RefreshTokenRepository;
-import com.example.auth.domain.auth.presentation.dto.request.TokenRequest;
+import com.example.auth.domain.auth.model.RefreshToken;
+import com.example.auth.domain.auth.repository.RefreshTokenRepository;
 import com.example.auth.domain.auth.service.AuthService;
 import com.example.auth.global.jwt.JwtProvider;
 
@@ -34,12 +33,11 @@ public class AuthServiceUnitTest {
   @Test
   @DisplayName("refresh token 재발급 ( reissue ) ")
   void when_request_refresh_token_then_issue_refresh_token_successfuly() {
-    TokenRequest tokenRequest = new TokenRequest("I'mRefreshToken");
-    String refreshToken = tokenRequest.refreshToken();
+    String refreshToken = "I'mRefreshToken";
     String role = "USER";
     RefreshToken token = RefreshToken.create(refreshToken, "kingsejun", role);
     given(refreshTokenRepository.findById(refreshToken)).willReturn(Optional.ofNullable(token));
-    authService.reissue(tokenRequest.refreshToken());
+    authService.reissue(refreshToken);
     then(jwtProvider).should().createAccessToken(token.getUserId(), role);
   }
 }

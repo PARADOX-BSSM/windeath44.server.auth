@@ -16,23 +16,19 @@ grpc:
 jwt:
   refresh-time: ${REFRESH_TIME}
   access-time: ${ACCESS_TIME}
-
-oauth:
-  google:
-    client_id : ${GOOGLE_CLIENT_ID}
-    client_pw : ${GOOGLE_CLIENT_PW}
-    redirect_url : ${GOOGLE_REDIRECT_URL}
+  header : "Authorization"
+  prefix : "Bearer "
 
 spring:
   data:
     redis:
-      host: localhost
+      host: ${REDIS_HOST}
       port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
 
 mail:
   host: smtp.gmail.com
   port: 587
-  domain : http://localhost:4444
   username: ${MAIL_USERNAME}
   password: ${MAIL_PASSWORD}
   smtp:
@@ -40,4 +36,6 @@ mail:
     timeout: 5000
     starttls:
       enable: true
-
+logging:
+  level:
+    com.example.auth: trace
