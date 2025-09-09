@@ -12,7 +12,7 @@ public class HttpUtil {
 
   public HttpHeaders makeToken(TokenResponse tokenResponse) {
     HttpHeaders httpHeaders = new HttpHeaders();
-    httpHeaders.add("accessToken", tokenResponse.accessToken());
+    httpHeaders.add("authorization", tokenResponse.authorization());
     httpHeaders.add(HttpHeaders.SET_COOKIE, createCookie("refreshToken", tokenResponse.refreshToken()).toString());
     return httpHeaders;
   }

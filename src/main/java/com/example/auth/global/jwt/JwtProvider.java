@@ -25,9 +25,9 @@ public class JwtProvider {
   private final KeyPair keyPair;
 
   public TokenResponse getTokenResponse(String userId, String role) {
-    String accessToken = createAccessToken(userId,role);
+    String authorization = createAuthorization(userId,role);
     String refreshToken = createRefreshToken(userId, role);
-    TokenResponse token = TokenResponse.create(accessToken, refreshToken);
+    TokenResponse token = TokenResponse.create(authorization, refreshToken);
     return token;
   }
 
@@ -39,7 +39,7 @@ public class JwtProvider {
     return refreshToken;
   }
 
-  public String createAccessToken(String userId, String role) {
+  public String createAuthorization(String userId, String role) {
     return createToken(userId, ACCESS_TOKEN, jwtProperties.getAccessTime(), role);
   }
 

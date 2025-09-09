@@ -5,6 +5,8 @@ import com.example.auth.global.jwt.JwtProvider;
 import io.envoyproxy.envoy.config.core.v3.HeaderValue;
 import io.envoyproxy.envoy.config.core.v3.HeaderValueOption;
 import io.envoyproxy.envoy.service.auth.v3.*;
+import io.envoyproxy.envoy.type.v3.HttpStatus;
+import io.envoyproxy.envoy.type.v3.StatusCode;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
@@ -29,18 +31,17 @@ public class JwtParsingService extends AuthorizationGrpc.AuthorizationImplBase {
     if (ifNull(jwtToken == null || jwtToken.isEmpty(), responseObserver)) return;
     // 유저 정보 추출
     UserCheckInfo user = jwtProvider.getUser(jwtToken);
+
+    // user가 Null
+    if (ifNull(user == null, responseObserver)) return;
+    // 성공적으로 반환
     String userId = user.userId();
     String role = user.role();
-
-    // userId가 Null
-    if (ifNull(userId == null, responseObserver)) return;
-    // 성공적으로 반환
 
     HeaderValueOption userIdHeader = getHeaderValueOption("user-id", userId);
     HeaderValueOption roleHeader = getHeaderValueOption("role", role);
 
     OkHttpResponse okResponse = getOkResponse(userIdHeader, roleHeader);
-
     CheckResponse response = getCheckResponse(okResponse);
 
     responseObserver.onNext(response);
@@ -63,11 +64,25 @@ public class JwtParsingService extends AuthorizationGrpc.AuthorizationImplBase {
             .build();
   }
 
-  private CheckResponse getDefaultResponse() {
-    HeaderValueOption passHeader = getHeaderValueOption("pass", "true");
-    OkHttpResponse okResponse = getOkResponse(passHeader);
-    CheckResponse checkResponse = getCheckResponse(okResponse);
+  private CheckResponse getCheckResponse(DeniedHttpResponse deniedHttpResponse) {
+    return CheckResponse.newBuilder()
+            .setDeniedResponse(deniedHttpResponse)
+            .setStatus(com.google.rpc.Status.newBuilder().setCode(0).build())
+            .build();
+  }
+
+
+  private CheckResponse getDeniedResponse(int httpStatus, String errorMessage) {
+    DeniedHttpResponse deniedResponse = getDEniedResponse(httpStatus, errorMessage);
+    CheckResponse checkResponse = getCheckResponse(deniedResponse);
     return checkResponse;
+  }
+
+  private static DeniedHttpResponse getDEniedResponse(int httpStatus, String errorMessage) {
+    return DeniedHttpResponse.newBuilder()
+            .setStatus(HttpStatus.newBuilder().setCode(StatusCode.valueOf(httpStatus)).build())
+            .setBody(errorMessage)
+            .build();
   }
 
   private OkHttpResponse getOkResponse(HeaderValueOption... headers) {
@@ -76,9 +91,9 @@ public class JwtParsingService extends AuthorizationGrpc.AuthorizationImplBase {
             .build();
   }
 
-  private boolean ifNull(boolean jwtToken, StreamObserver<CheckResponse> responseObserver) {
-    if (jwtToken) {
-      CheckResponse response = getDefaultResponse();
+  private boolean ifNull(boolean isNull, StreamObserver<CheckResponse> responseObserver) {
+    if (isNull) {
+      CheckResponse response = getDeniedResponse(401, "Unauthorized");
       responseObserver.onNext(response);
       responseObserver.onCompleted();
       return true;
