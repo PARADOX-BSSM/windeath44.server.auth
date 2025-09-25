@@ -21,6 +21,10 @@ public class HttpUtil {
     return ResponseCookie.from(key, value)
             .httpOnly(true)
             .maxAge(86400)
+            .path("/")
+            .domain("windeath44.wiki")
+            .sameSite("None")
+            .secure(true)
             .build();
   }
 
