@@ -1,6 +1,7 @@
 package com.example.auth.domain.mail.sender;
 
 import com.example.auth.domain.mail.exception.EmailSendFailedException;
+import com.example.auth.domain.mail.exception.EmailVerificationFailedException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,8 @@ import java.io.IOException;
 
 @Slf4j
 abstract class TemplateMailSender {
+  private static String paradoxEmail = "paradox.windeath44@gmail.com";
+
   private final SpringTemplateEngine templateEngine;
 
   protected final MailContextMaker mailContextMaker = new MailContextMaker();
@@ -40,6 +43,8 @@ abstract class TemplateMailSender {
     MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
     String email = metadata.getData("email");
+    if (paradoxEmail.equals(email)) throw EmailVerificationFailedException.getInstance();
+
     String title = metadata.getData("title");
     String fileName = metadata.getData("fileName");
 
