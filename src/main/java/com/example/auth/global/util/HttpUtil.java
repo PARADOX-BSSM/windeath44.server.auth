@@ -13,14 +13,20 @@ public class HttpUtil {
   public HttpHeaders makeToken(TokenResponse tokenResponse) {
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add("authorization", tokenResponse.authorization());
-    httpHeaders.add(HttpHeaders.SET_COOKIE, createCookie("refreshToken", tokenResponse.refreshToken()).toString());
+    httpHeaders.add(HttpHeaders.SET_COOKIE, createCookie("refreshToken", tokenResponse.refreshToken(), 86000).toString());
     return httpHeaders;
   }
-  
-  private ResponseCookie createCookie(String key, String value) {
+
+  public HttpHeaders logoutCookie() {
+    HttpHeaders httpHeaders = new HttpHeaders();
+    httpHeaders.add(HttpHeaders.SET_COOKIE, createCookie("refreshToken", "", 0).toString());
+    return httpHeaders;
+  }
+
+  private ResponseCookie createCookie(String key, String value, int age) {
     return ResponseCookie.from(key, value)
             .httpOnly(true)
-            .maxAge(86400)
+            .maxAge(age)
             .path("/")
             .domain("windeath44.wiki")
             .sameSite("None")

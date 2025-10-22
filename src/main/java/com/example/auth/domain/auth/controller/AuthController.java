@@ -6,10 +6,12 @@ import com.example.auth.global.dto.ResponseDto;
 import com.example.auth.global.util.HttpUtil;
 import com.example.auth.domain.auth.service.AuthService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,10 +46,19 @@ public class AuthController {
   }
 
   @PostMapping("/logout")
-  public ResponseEntity<ResponseDto<Void>> logout(@CookieValue("refreshToken") Cookie refreshTokenCookie) {
+  public ResponseEntity<ResponseDto<Void>> logout(
+          @CookieValue("refreshToken") Cookie refreshTokenCookie,
+          HttpServletResponse httpServletResponse
+
+  ) {
     String refreshToken = refreshTokenCookie.getValue();
     authService.logout(refreshToken);
     ResponseDto<Void> responseDto = HttpUtil.success("logout");
-    return ResponseEntity.ok(responseDto);
+    HttpHeaders httpHeaders = httpUtil.logoutCookie();
+
+    return ResponseEntity
+            .status(HttpStatus.OK)
+            .headers(httpHeaders)
+            .body(responseDto);
   }
 }
