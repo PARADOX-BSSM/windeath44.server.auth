@@ -7,23 +7,22 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
-@Component
 public class HttpUtil {
 
-  public HttpHeaders makeToken(TokenResponse tokenResponse) {
+  public static HttpHeaders makeToken(TokenResponse tokenResponse) {
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add("authorization", tokenResponse.authorization());
     httpHeaders.add(HttpHeaders.SET_COOKIE, createCookie("refreshToken", tokenResponse.refreshToken(), 86000).toString());
     return httpHeaders;
   }
 
-  public HttpHeaders logoutCookie() {
+  public static HttpHeaders logoutCookie() {
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add(HttpHeaders.SET_COOKIE, createCookie("refreshToken", "", 0).toString());
     return httpHeaders;
   }
 
-  private ResponseCookie createCookie(String key, String value, int age) {
+  private static ResponseCookie createCookie(String key, String value, int age) {
     return ResponseCookie.from(key, value)
             .httpOnly(true)
             .maxAge(age)

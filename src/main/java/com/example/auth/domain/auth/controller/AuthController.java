@@ -20,12 +20,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController {
   private final AuthService authService;
-  private final HttpUtil httpUtil;
 
   @PostMapping("/login")
   public ResponseEntity<ResponseDto<Void>> login(@RequestBody @Valid UserLoginRequest request) {
     TokenResponse tokenResponse = authService.login(request);
-    HttpHeaders httpHeaders = httpUtil.makeToken(tokenResponse);
+    HttpHeaders httpHeaders = HttpUtil.makeToken(tokenResponse);
     ResponseDto<Void> responseDto = HttpUtil.success("login");
     return ResponseEntity
             .status(HttpStatus.ACCEPTED)
@@ -37,7 +36,7 @@ public class AuthController {
   public ResponseEntity<ResponseDto<Void>> reissue(@CookieValue("refreshToken") Cookie refreshTokenCookie) {
     String refreshToken = refreshTokenCookie.getValue();
     TokenResponse tokenResponse = authService.reissue(refreshToken);
-    HttpHeaders httpHeaders = httpUtil.makeToken(tokenResponse);
+    HttpHeaders httpHeaders = HttpUtil.makeToken(tokenResponse);
     ResponseDto<Void> responseDto = HttpUtil.success("access token reissue");
     return ResponseEntity
             .status(HttpStatus.ACCEPTED)
@@ -47,14 +46,12 @@ public class AuthController {
 
   @PostMapping("/logout")
   public ResponseEntity<ResponseDto<Void>> logout(
-          @CookieValue("refreshToken") Cookie refreshTokenCookie,
-          HttpServletResponse httpServletResponse
-
+          @CookieValue("refreshToken") Cookie refreshTokenCookie
   ) {
     String refreshToken = refreshTokenCookie.getValue();
     authService.logout(refreshToken);
     ResponseDto<Void> responseDto = HttpUtil.success("logout");
-    HttpHeaders httpHeaders = httpUtil.logoutCookie();
+    HttpHeaders httpHeaders = HttpUtil.logoutCookie();
 
     return ResponseEntity
             .status(HttpStatus.OK)
