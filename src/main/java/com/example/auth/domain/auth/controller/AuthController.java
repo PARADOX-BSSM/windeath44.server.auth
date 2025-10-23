@@ -6,10 +6,12 @@ import com.example.auth.global.dto.ResponseDto;
 import com.example.auth.global.util.HttpUtil;
 import com.example.auth.domain.auth.service.AuthService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,12 +20,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController {
   private final AuthService authService;
-  private final HttpUtil httpUtil;
 
   @PostMapping("/login")
   public ResponseEntity<ResponseDto<Void>> login(@RequestBody @Valid UserLoginRequest request) {
     TokenResponse tokenResponse = authService.login(request);
-    HttpHeaders httpHeaders = httpUtil.makeToken(tokenResponse);
+    HttpHeaders httpHeaders = HttpUtil.makeToken(tokenResponse);
     ResponseDto<Void> responseDto = HttpUtil.success("login");
     return ResponseEntity
             .status(HttpStatus.ACCEPTED)
@@ -35,7 +36,7 @@ public class AuthController {
   public ResponseEntity<ResponseDto<Void>> reissue(@CookieValue("refreshToken") Cookie refreshTokenCookie) {
     String refreshToken = refreshTokenCookie.getValue();
     TokenResponse tokenResponse = authService.reissue(refreshToken);
-    HttpHeaders httpHeaders = httpUtil.makeToken(tokenResponse);
+    HttpHeaders httpHeaders = HttpUtil.makeToken(tokenResponse);
     ResponseDto<Void> responseDto = HttpUtil.success("access token reissue");
     return ResponseEntity
             .status(HttpStatus.ACCEPTED)
@@ -44,10 +45,17 @@ public class AuthController {
   }
 
   @PostMapping("/logout")
-  public ResponseEntity<ResponseDto<Void>> logout(@CookieValue("refreshToken") Cookie refreshTokenCookie) {
+  public ResponseEntity<ResponseDto<Void>> logout(
+          @CookieValue("refreshToken") Cookie refreshTokenCookie
+  ) {
     String refreshToken = refreshTokenCookie.getValue();
     authService.logout(refreshToken);
     ResponseDto<Void> responseDto = HttpUtil.success("logout");
-    return ResponseEntity.ok(responseDto);
+    HttpHeaders httpHeaders = HttpUtil.logoutCookie();
+
+    return ResponseEntity
+            .status(HttpStatus.OK)
+            .headers(httpHeaders)
+            .body(responseDto);
   }
 }
