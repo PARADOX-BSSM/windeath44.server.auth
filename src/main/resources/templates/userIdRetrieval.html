@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Windeath44.supervisor</title>
+
+    <style>
+        @font-face {
+            font-family: "DOSIyagiMedium";
+            src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/DOSIyagiMedium.woff2") format("woff2");
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: "DOSIyagiBoldface";
+            src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/DOSIyagiBoldface.woff2") format("woff2");
+            font-weight: normal;
+            font-style: normal;
+        }
+    </style>
+</head>
+<body>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+        <td align="center" valign="top">
+            <!--[if gte mso 9]>
+            <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;height:857px;">
+                <v:fill type="frame" src="cid:backgroundImage" color="#2E2E2E" />
+                <v:textbox inset="0,0,0,0">
+            <![endif]-->
+
+            <table width="600" cellpadding="0" cellspacing="0" border="0" style="width: 600px; background-color: #2E2E2E; background-image: url('cid:backgroundImage'); background-size: cover; background-position: center; margin: 0 auto;">
+                <tr>
+                    <td style="padding: 10px;">
+
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: white; border: 2.57px solid #ff8ef6; font-family: DOSIyagiBoldface, sans-serif;">
+
+                            <!-- Title bar -->
+                            <tr style="background-color: #ffd3fb;">
+                                <td style="padding: 5px 10px; font-size: 25px; color: #E774DD;">
+                                    <img src="cid:heart" alt="♥" style="vertical-align: middle; width: 20px; height: 20px;">
+                                    Windeath44.supervisor
+                                </td>
+                                <td align="right" style="padding: 5px 10px;">
+                                    <img src="cid:buttons" alt="buttons">
+                                </td>
+                            </tr>
+
+                            <!-- Content -->
+                            <tr>
+                                <td colspan="2" style="background-color: #2E2E2E; color: white; padding: 28px 20px;">
+                                    <div style="text-align: center;">
+                                        <img src="cid:logo" style="width: 90px; height: 90px;" />
+                                    </div>
+                                    <h1 style="color: #FF8EF6; font-size: 32px; text-align: center;" th:text="${name}">User 님,</h1>
+                                    <p style="font-size: 16px; color : white; text-align: center;">아이디를 찾기 위해 <strong>Windeath44 인증 코드</strong>가 필요합니다.</p>
+
+                                    <!-- 인증 코드 박스 -->
+                                    <div style="margin: 20px auto; background-color: white; width: 80%; height: 60px; text-align: center;">
+                                        <h1 style="color: black; font-size: 38px; margin: 0; line-height: 60px;" th:text="${randomStringKey}">ERROR</h1>
+                                    </div>
+
+                                    <hr style="border: 1px solid #ff8ef6;" />
+
+                                    <h2 style="font-size: 24px; color : white">인증 코드 사용 방법</h2>
+                                    <p style="font-size: 16px; color: white">
+                                        위 인증 코드를 입력하시면 귀하의 <strong>windeath44</strong> 아이디를 확인하실 수 있습니다.
+                                        <br><br>
+                                        본인이 요청하지 않은 경우, 이 이메일을 무시하셔도 됩니다.
+                                        <br><br>
+                                        이 인증 코드는 5분 동안만 유효하며, 다른 사람과 공유하지 마세요.
+                                    </p>
+
+                                    <div style="text-align: center; color: #A1A1A1; font-size: 20px; margin-top: 80px;">
+                                        @PARADOX
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+            <!--[if gte mso 9]>
+            </v:textbox>
+            </v:rect>
+            <![endif]-->
+        </td>
+    </tr>
+</table>
+</body>
+</html>
