@@ -1,5 +1,6 @@
 package com.example.auth.domain.mail.facade;
 
+import com.example.auth.domain.gRPC.service.GrpcClientService;
 import com.example.auth.domain.mail.model.RandomStringKey;
 import com.example.auth.global.config.properties.MailProperties;
 import com.example.auth.domain.mail.sender.EmailVerificationMailSender;
@@ -20,6 +21,7 @@ public class MailFacade {
 
   private final JavaMailSender javaMailSender;
   private final MailProperties mailProperties;
+  private final GrpcClientService grpcClientService;
 
   public void sendToAuthorizationForEmail(String email) {
     String title = "최애의 사인 windeath44 email 인증 요청";
@@ -56,14 +58,14 @@ public class MailFacade {
   public void sendUserIdRetrieval(String email) {
     String title = "최애의 사인 windeath44 아이디 찾기";
     String fileName = "userIdRetrieval";
-    String randomStringKey = RandomStringKey.makeKey(5);
+    String userId = grpcClientService.getUserIdByEmail(email);
     MailMetadatas mailMetadatas = new MailMetadatas();
 
     mailMetadatas
             .addData("email", email)
             .addData("title", title)
             .addData("fileName", fileName)
-            .addData("randomStringKey", randomStringKey);
+            .addData("userId", userId);
 
     userIdRetrievalMailSender.send(mailMetadatas, javaMailSender);
   }
