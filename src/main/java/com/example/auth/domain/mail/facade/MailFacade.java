@@ -1,10 +1,12 @@
 package com.example.auth.domain.mail.facade;
 
+import com.example.auth.domain.gRPC.service.GrpcClientService;
 import com.example.auth.domain.mail.model.RandomStringKey;
 import com.example.auth.global.config.properties.MailProperties;
 import com.example.auth.domain.mail.sender.EmailVerificationMailSender;
 import com.example.auth.domain.mail.sender.MailMetadatas;
 import com.example.auth.domain.mail.sender.PasswordValidationMailSender;
+import com.example.auth.domain.mail.sender.UserIdRetrievalMailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -15,9 +17,11 @@ import org.springframework.stereotype.Service;
 public class MailFacade {
   private final EmailVerificationMailSender emailVerificationMailSender;
   private final PasswordValidationMailSender passwordValidationMailSender;
+  private final UserIdRetrievalMailSender userIdRetrievalMailSender;
 
   private final JavaMailSender javaMailSender;
   private final MailProperties mailProperties;
+  private final GrpcClientService grpcClientService;
 
   public void sendToAuthorizationForEmail(String email) {
     String title = "최애의 사인 windeath44 email 인증 요청";
@@ -49,6 +53,21 @@ public class MailFacade {
             .addData("randomStringKey", randomStringKey);
 
     passwordValidationMailSender.send(mailMetadatas,  javaMailSender);
+  }
+
+  public void sendUserIdRetrieval(String email) {
+    String title = "최애의 사인 windeath44 아이디 찾기";
+    String fileName = "userIdRetrieval";
+    String userId = grpcClientService.getUserIdByEmail(email);
+    MailMetadatas mailMetadatas = new MailMetadatas();
+
+    mailMetadatas
+            .addData("email", email)
+            .addData("title", title)
+            .addData("fileName", fileName)
+            .addData("userId", userId);
+
+    userIdRetrievalMailSender.send(mailMetadatas, javaMailSender);
   }
 
 }

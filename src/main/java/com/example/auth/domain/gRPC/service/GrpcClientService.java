@@ -17,6 +17,9 @@ public class GrpcClientService {
   @GrpcClient("user-server")
   private UserLoginServiceGrpc.UserLoginServiceBlockingStub authenticationServiceBlockingStub;
 
+  @GrpcClient("user-server")
+  private UserIdRetrievalServiceGrpc.UserIdRetrievalServiceBlockingStub userIdRetrievalServiceBlockingStub;
+
   public UserCheckInfo checkUser(String userId, String password) {
     UserLoginResponse response = sendToLoginUserRequest(userId, password);
     boolean userExists = response.getExistsUser();
@@ -47,6 +50,23 @@ public class GrpcClientService {
   private UserLoginResponse getCheckLoginUserResponse(UserLoginRequest request) {
     try {
       UserLoginResponse response = authenticationServiceBlockingStub.checkUser(request);
+      return response;
+    } catch (StatusRuntimeException e) {
+      throw new GrpcMappedException(e.getStatus().getDescription(), GrpcStatusMapper.resolve(e.getStatus().getCode()));
+    }
+  }
+
+  public String getUserIdByEmail(String email) {
+    UserIdRetrievalRequest request = UserIdRetrievalRequest.newBuilder()
+            .setEmail(email)
+            .build();
+    UserIdRetrievalResponse response = getUserIdRetrievalResponse(request);
+    return response.getUserId();
+  }
+
+  private UserIdRetrievalResponse getUserIdRetrievalResponse(UserIdRetrievalRequest request) {
+    try {
+      UserIdRetrievalResponse response = userIdRetrievalServiceBlockingStub.getUserIdByEmail(request);
       return response;
     } catch (StatusRuntimeException e) {
       throw new GrpcMappedException(e.getStatus().getDescription(), GrpcStatusMapper.resolve(e.getStatus().getCode()));

@@ -11,8 +11,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RandomStringKey {
   @Id
-  String randomStringKey;
-  String email;
+  public String randomStringKey;
+  public String email;
 
   public static RandomStringKey create(String randomStringKey, String email) {
     return new RandomStringKey(randomStringKey, email);
