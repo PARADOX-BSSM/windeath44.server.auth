@@ -32,7 +32,6 @@ public class PasswordValidationController {
     passwordValidationService.verifyCode(request.authorizationCode());
     ResponseDto<Void> responseDto = HttpUtil.success("success verify");
     return ResponseEntity.ok(responseDto);
-
   }
 
 }

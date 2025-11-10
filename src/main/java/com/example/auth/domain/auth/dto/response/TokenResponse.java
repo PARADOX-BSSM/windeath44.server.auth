@@ -3,10 +3,10 @@ package com.example.auth.domain.auth.dto.response;
 
 
 public record TokenResponse (
-        String accessToken,
+        String authorization,
         String refreshToken
 ) {
-  public static TokenResponse create(String accessToken, String refreshToken) {
-    return new TokenResponse(accessToken, refreshToken);
+  public static TokenResponse create(String authorization, String refreshToken) {
+    return new TokenResponse(authorization, refreshToken);
   }
 }

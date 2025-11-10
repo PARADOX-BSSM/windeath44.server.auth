@@ -20,6 +20,7 @@ RUN ./gradlew generateProto bootJar --no-daemon -x test --stacktrace
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
+# 빌드한 JAR 파일 복사
 COPY --from=build /app/build/libs/*.jar app.jar
 
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
